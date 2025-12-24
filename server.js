@@ -1,29 +1,20 @@
 const express = require('express');
-const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3000;
+__path = process.cwd()
+const bodyParser = require("body-parser");
+const PORT = process.env.PORT || 8000;
 
-// Serve static files from current directory
-app.use(express.static(__dirname));
+app.use('/',async (req, res, next) => {
+res.sendFile(__path + '/index.html')
+})
 
-// Health check endpoint for Render
-app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'ok',
-        service: 'FEE XMD Dashboard',
-        uptime: process.uptime(),
-        timestamp: new Date().toISOString()
-    });
-});
-
-// All routes serve index.html (for SPA)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Start server
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(PORT, () => {
-    console.log(`🚀 FEE XMD Dashboard running on port ${PORT}`);
-    console.log(`📊 Open: http://localhost:${PORT}`);
-    console.log(`❤️  Health check: http://localhost:${PORT}/health`);
-});
+    console.log(`
+Fr El Ez 🚨
+
+ Server running on http://localhost:` + PORT)
+})
+
+module.exports = app
