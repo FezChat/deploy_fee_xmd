@@ -1073,487 +1073,468 @@
         </footer>
     </div>
 
-    <script>
-        // FIXED GITHUB PAGES COMPATIBLE VERSION
-        // Using GitHub Pages with CORS workaround
-        
-        // STATE MANAGEMENT
-        let currentUser = null;
-        let hasFork = false;
-        let userVerified = false;
-        let demoMode = false;
+<script>
+    // REAL-TIME GITHUB FORK VERIFICATION
+    // No demo mode allowed - must have real fork
+    
+    // STATE MANAGEMENT
+    let currentUser = null;
+    let hasRealFork = false;
+    let userVerified = false;
+    let userForkUrl = null;
 
-        // DOM ELEMENTS
-        const verifyBtn = document.getElementById('verifyBtn');
-        const verificationResult = document.getElementById('verificationResult');
-        const deployButtons = {
-            heroku: document.getElementById('herokuBtn'),
-            railway: document.getElementById('railwayBtn'),
-            render: document.getElementById('renderBtn'),
-            koyeb: document.getElementById('koyebBtn'),
-            replit: document.getElementById('replitBtn')
+    // DOM ELEMENTS
+    const verifyBtn = document.getElementById('verifyBtn');
+    const verificationResult = document.getElementById('verificationResult');
+    const deployButtons = {
+        heroku: document.getElementById('herokuBtn'),
+        railway: document.getElementById('railwayBtn'),
+        render: document.getElementById('renderBtn'),
+        koyeb: document.getElementById('koyebBtn'),
+        replit: document.getElementById('replitBtn')
+    };
+
+    // REPOSITORY INFO
+    const REPO_OWNER = 'Fred1e';
+    const REPO_NAME = 'Fee-Xmd';
+    
+    // CORS PROXY FOR GITHUB PAGES
+    const CORS_PROXY = 'https://corsproxy.io/?';
+
+    // SHOW RESULT MESSAGE
+    function showResult(message, type = 'info') {
+        const types = {
+            success: { icon: 'fas fa-check-circle', class: 'result-success' },
+            error: { icon: 'fas fa-exclamation-circle', class: 'result-error' },
+            warning: { icon: 'fas fa-exclamation-triangle', class: 'result-warning' },
+            info: { icon: 'fas fa-info-circle', class: 'result-info' },
+            loading: { icon: 'fas fa-spinner fa-spin', class: 'result-loading' }
         };
 
-        // REPOSITORY INFO
-        const REPO_OWNER = 'Fred1e';
-        const REPO_NAME = 'Fee-Xmd';
-        
-        // CORS PROXY FOR GITHUB PAGES (FIX FOR BROWSER RESTRICTIONS)
-        const CORS_PROXY = 'https://corsproxy.io/?';
+        const config = types[type] || types.info;
 
-        // SHOW RESULT MESSAGE
-        function showResult(message, type = 'info') {
-            const types = {
-                success: { icon: 'fas fa-check-circle', class: 'result-success' },
-                error: { icon: 'fas fa-exclamation-circle', class: 'result-error' },
-                warning: { icon: 'fas fa-exclamation-triangle', class: 'result-warning' },
-                info: { icon: 'fas fa-info-circle', class: 'result-info' },
-                loading: { icon: 'fas fa-spinner fa-spin', class: 'result-loading' }
-            };
+        verificationResult.innerHTML = `
+            <div class="result-message ${config.class}">
+                <i class="${config.icon}"></i>
+                <span>${message}</span>
+            </div>
+        `;
+    }
 
-            const config = types[type] || types.info;
-            
-            verificationResult.innerHTML = `
-                <div class="result-message ${config.class}">
-                    <i class="${config.icon}"></i>
-                    <span>${message}</span>
-                </div>
-            `;
+    // CHECK IF USER HAS REAL FORK
+    async function verifyGitHubUser() {
+        const username = document.getElementById('githubUsername').value.trim();
+
+        if (!username) {
+            showResult('Please enter your GitHub username', 'error');
+            return;
         }
 
-        // VERIFY GITHUB USER WITH CORS WORKAROUND
-        async function verifyGitHubUser() {
-            const username = document.getElementById('githubUsername').value.trim();
-            
-            if (!username) {
-                showResult('Please enter your GitHub username', 'error');
-                return;
-            }
+        // Username validation
+        if (!/^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/.test(username)) {
+            showResult('Invalid GitHub username format', 'error');
+            return;
+        }
 
-            // Username validation
-            if (!/^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/.test(username)) {
-                showResult('Invalid GitHub username format', 'error');
-                return;
-            }
+        showResult('Checking GitHub account and fork status...', 'loading');
+        currentUser = username;
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = '<span class="loader"></span> Verifying...';
 
-            showResult('Checking GitHub account...', 'loading');
-            currentUser = username;
-            verifyBtn.disabled = true;
-            verifyBtn.innerHTML = '<span class="loader"></span> Checking...';
+        try {
+            // STEP 1: Check if GitHub user exists
+            const userUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/users/${username}`)}`;
+            const userRes = await fetch(userUrl);
 
-            try {
-                // Check if user exists using CORS proxy for GitHub Pages compatibility
-                const userUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/users/${username}`)}`;
-                const userRes = await fetch(userUrl);
-                
-                if (!userRes.ok) {
-                    if (userRes.status === 404) {
-                        showResult('GitHub user not found. Please check your username.', 'error');
-                    } else {
-                        showResult('Error connecting to GitHub API. Please try again.', 'error');
-                    }
-                    resetVerifyButton();
-                    return;
-                }
-
-                // Check if user has forked the repo using GitHub REST API
-                // Note: Public API doesn't require authentication for public repos
-                const forksUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/forks`)}`;
-                const forksRes = await fetch(forksUrl);
-                
-                if (!forksRes.ok) {
-                    // If API fails, show manual verification option
-                    showResult('GitHub API limit reached. Please fork manually.', 'warning');
-                    showManualVerification(username);
-                    resetVerifyButton();
-                    return;
-                }
-
-                const forks = await forksRes.json();
-                const userFork = Array.isArray(forks) 
-                    ? forks.find(fork => fork.owner.login.toLowerCase() === username.toLowerCase())
-                    : null;
-
-                if (userFork) {
-                    hasFork = true;
-                    userVerified = true;
-                    showResult(`✅ Repository forked successfully! Found at: ${userFork.html_url}`, 'success');
-                    enableDeployButtons();
-                    
-                    // Show success message with next steps
-                    setTimeout(() => {
-                        showResult(`🎉 Verification complete! You can now deploy to any platform below.`, 'success');
-                    }, 1000);
-                    
+            if (!userRes.ok) {
+                if (userRes.status === 404) {
+                    showResult('GitHub user not found. Please check your username.', 'error');
                 } else {
-                    hasFork = false;
-                    showResult('Repository not forked. Please fork to continue.', 'warning');
-                    showForkModal();
+                    showResult('Error connecting to GitHub API. Please try again.', 'error');
                 }
-
-            } catch (error) {
-                console.error('Verification error:', error);
-                showResult('Network error. Please check your connection and try again.', 'error');
-            } finally {
                 resetVerifyButton();
-            }
-        }
-
-        // MANUAL VERIFICATION OPTION
-        function showManualVerification(username) {
-            verificationResult.innerHTML += `
-                <div class="result-message result-info" style="margin-top: 1rem;">
-                    <i class="fas fa-hands-helping"></i>
-                    <div>
-                        <strong>Manual Verification</strong>
-                        <p style="margin-top: 0.5rem; font-size: 0.9em;">
-                            1. Fork the repository at: <a href="https://github.com/${REPO_OWNER}/${REPO_NAME}" target="_blank" style="color: var(--secondary);">github.com/${REPO_OWNER}/${REPO_NAME}</a><br>
-                            2. Click "I've Forked" after forking
-                        </p>
-                        <button class="btn btn-secondary" onclick="simulateForkForDemo()" style="margin-top: 0.8rem; padding: 0.5rem 1rem; font-size: 0.9em;">
-                            <i class="fas fa-magic"></i> I've Forked (Manual)
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // RESET VERIFY BUTTON
-        function resetVerifyButton() {
-            verifyBtn.disabled = false;
-            verifyBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & Check Fork';
-        }
-
-        // ENABLE DEPLOY BUTTONS
-        function enableDeployButtons() {
-            Object.values(deployButtons).forEach(btn => {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-rocket"></i> Deploy Now';
-            });
-        }
-
-        // SHOW FORK MODAL
-        function showForkModal() {
-            document.getElementById('forkModal').style.display = 'flex';
-        }
-
-        function closeForkModal() {
-            document.getElementById('forkModal').style.display = 'none';
-        }
-
-        // SIMULATE FORK FOR DEMO/USER SAYS THEY FORKED
-        function simulateForkForDemo() {
-            const username = document.getElementById('githubUsername').value.trim() || 'demo-user';
-            hasFork = true;
-            userVerified = true;
-            demoMode = true;
-            
-            showResult(`✅ Repository forked successfully! (Demo mode for ${username})`, 'success');
-            enableDeployButtons();
-            closeForkModal();
-            
-            // Show demo mode notice
-            setTimeout(() => {
-                showResult(`⚠️ Demo mode active. Deployment will use your actual fork when you click "Deploy Now".`, 'warning');
-            }, 1500);
-        }
-
-        // CHECK FORK AGAIN
-        function checkForkAgain() {
-            if (currentUser) {
-                verifyGitHubUser();
-            } else {
-                showResult('Please enter your GitHub username first', 'warning');
-            }
-        }
-
-        // DEPLOY TO PLATFORM WITH FIXED URLS
-        function deployTo(platform) {
-            if (!userVerified || !hasFork) {
-                showResult('Please verify GitHub and fork first', 'error');
-                showForkModal();
+                disableAllDeployButtons();
                 return;
             }
 
-            const username = currentUser || 'your-username';
-            const forkRepo = demoMode ? `${REPO_OWNER}/${REPO_NAME}` : `${username}/${REPO_NAME}`;
+            // STEP 2: Check user's repositories to see if they have forked our repo
+            // This checks the user's own repositories instead of checking forks list
+            const userReposUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/users/${username}/repos?per_page=100`)}`;
+            const reposRes = await fetch(userReposUrl);
 
-            // CORRECT DEPLOYMENT URLs for each platform
-            const deployUrls = {
-                heroku: `https://dashboard.heroku.com/new?template=https://github.com/${forkRepo}`,
-                railway: `https://railway.app/new?template=https://github.com/${forkRepo}`,
-                render: `https://render.com/deploy?repo=https://github.com/${forkRepo}`,
-                koyeb: `https://app.koyeb.com/deploy?type=git&repository=https://github.com/${forkRepo}`,
-                replit: `https://replit.com/github/${forkRepo}`
-            };
+            if (!reposRes.ok) {
+                showResult('Cannot fetch user repositories. API limit may be reached.', 'warning');
+                showManualVerification();
+                resetVerifyButton();
+                disableAllDeployButtons();
+                return;
+            }
 
-            // Show loading
-            const btn = deployButtons[platform];
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<span class="loader"></span> Redirecting...';
+            const userRepos = await reposRes.json();
+            
+            // Look for a fork of our repository
+            let forkFound = null;
+            
+            // Method 1: Check if any repo is a fork of our repo
+            for (const repo of userRepos) {
+                if (repo.fork && repo.parent) {
+                    if (repo.parent.full_name.toLowerCase() === `${REPO_OWNER}/${REPO_NAME}`.toLowerCase()) {
+                        forkFound = repo;
+                        break;
+                    }
+                }
+            }
+            
+            // Method 2: Check repo name pattern if Method 1 fails
+            if (!forkFound) {
+                for (const repo of userRepos) {
+                    if (repo.name.toLowerCase() === REPO_NAME.toLowerCase() || 
+                        repo.name.toLowerCase().includes('fee-xmd') ||
+                        repo.name.toLowerCase().includes('fee-xmd')) {
+                        // Double check by looking at description or topics
+                        if (repo.description && (
+                            repo.description.includes('WhatsApp') || 
+                            repo.description.includes('bot') ||
+                            repo.topics?.includes('whatsapp-bot')
+                        )) {
+                            forkFound = repo;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (forkFound) {
+                // REAL FORK FOUND
+                hasRealFork = true;
+                userVerified = true;
+                userForkUrl = forkFound.html_url;
+                
+                showResult(`✅ Verified! You have forked the repository: ${forkFound.full_name}`, 'success');
+                enableDeployButtons();
+                
+                // Show success message with fork details
+                setTimeout(() => {
+                    showResult(`🎉 Ready to deploy! Your fork: <a href="${forkFound.html_url}" target="_blank" style="color: var(--accent);">${forkFound.full_name}</a>`, 'success');
+                }, 1000);
+                
+            } else {
+                // NO FORK FOUND
+                hasRealFork = false;
+                userVerified = false;
+                showResult('❌ Repository not forked. Please fork the repository first.', 'error');
+                showForkModal();
+                disableAllDeployButtons();
+            }
+
+        } catch (error) {
+            console.error('Verification error:', error);
+            showResult('Network error. Please check your connection and try again.', 'error');
+            disableAllDeployButtons();
+        } finally {
+            resetVerifyButton();
+        }
+    }
+
+    // DISABLE ALL DEPLOY BUTTONS
+    function disableAllDeployButtons() {
+        Object.values(deployButtons).forEach(btn => {
             btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-lock"></i> Fork Required';
+        });
+    }
 
-            // Show deployment message
-            const platformNames = {
-                heroku: 'Heroku',
-                railway: 'Railway',
-                render: 'Render',
-                koyeb: 'Koyeb',
-                replit: 'Replit'
-            };
+    // ENABLE DEPLOY BUTTONS ONLY IF REAL FORK EXISTS
+    function enableDeployButtons() {
+        if (!hasRealFork || !userVerified || !currentUser) {
+            disableAllDeployButtons();
+            return;
+        }
+        
+        Object.values(deployButtons).forEach(btn => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-rocket"></i> Deploy Now';
+        });
+    }
 
-            showResult(`🚀 Redirecting to ${platformNames[platform]} deployment page...`, 'loading');
+    // MANUAL VERIFICATION OPTION
+    function showManualVerification() {
+        verificationResult.innerHTML += `
+            <div class="result-message result-info" style="margin-top: 1rem;">
+                <i class="fas fa-hands-helping"></i>
+                <div>
+                    <strong>Manual Verification Required</strong>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em;">
+                        1. Fork: <a href="https://github.com/${REPO_OWNER}/${REPO_NAME}/fork" target="_blank" style="color: var(--secondary);">Click here to fork</a><br>
+                        2. Wait for fork to complete<br>
+                        3. Click "Check Again" below
+                    </p>
+                    <button class="btn btn-secondary" onclick="checkForkAgain()" style="margin-top: 0.8rem; padding: 0.5rem 1rem; font-size: 0.9em;">
+                        <i class="fas fa-sync-alt"></i> Check Again
+                    </button>
+                </div>
+            </div>
+        `;
+    }
 
-            // Open deployment page in new tab
-            setTimeout(() => {
+    // RESET VERIFY BUTTON
+    function resetVerifyButton() {
+        verifyBtn.disabled = false;
+        verifyBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Fork Status';
+    }
+
+    // SHOW FORK MODAL
+    function showForkModal() {
+        document.getElementById('forkModal').style.display = 'flex';
+    }
+
+    function closeForkModal() {
+        document.getElementById('forkModal').style.display = 'none';
+    }
+
+    // CHECK FORK AGAIN
+    function checkForkAgain() {
+        if (currentUser) {
+            verifyGitHubUser();
+        } else {
+            showResult('Please enter your GitHub username first', 'warning');
+        }
+    }
+
+    // DEPLOY TO PLATFORM - USING USER'S REAL FORK
+    function deployTo(platform) {
+        // DOUBLE CHECK: User must have real fork
+        if (!userVerified || !hasRealFork || !currentUser) {
+            showResult('❌ Please fork the repository first', 'error');
+            showForkModal();
+            disableAllDeployButtons();
+            return;
+        }
+
+        // Use the verified user's fork
+        const forkRepo = `${currentUser}/${REPO_NAME}`;
+
+        // CORRECT DEPLOYMENT URLs for each platform
+        const deployUrls = {
+            heroku: `https://dashboard.heroku.com/new?template=https://github.com/${forkRepo}`,
+            railway: `https://railway.app/new?template=https://github.com/${forkRepo}`,
+            render: `https://render.com/deploy?repo=https://github.com/${forkRepo}`,
+            koyeb: `https://app.koyeb.com/deploy?type=git&repository=https://github.com/${forkRepo}`,
+            replit: `https://replit.com/github/${forkRepo}`
+        };
+
+        // Show loading
+        const btn = deployButtons[platform];
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="loader"></span> Preparing...';
+        btn.disabled = true;
+
+        // Show deployment message
+        const platformNames = {
+            heroku: 'Heroku',
+            railway: 'Railway',
+            render: 'Render',
+            koyeb: 'Koyeb',
+            replit: 'Replit'
+        };
+
+        showResult(`🚀 Preparing deployment to ${platformNames[platform]}...`, 'loading');
+
+        // Verify fork one more time before redirecting
+        setTimeout(async () => {
+            try {
+                // Final verification
+                const verifyUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/repos/${forkRepo}`)}`;
+                const verifyRes = await fetch(verifyUrl);
+                
+                if (!verifyRes.ok) {
+                    showResult(`❌ Cannot access your fork. Please check it exists: ${forkRepo}`, 'error');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    disableAllDeployButtons();
+                    return;
+                }
+                
+                // FORK IS CONFIRMED - REDIRECT
+                showResult(`✅ Redirecting to ${platformNames[platform]}...`, 'success');
                 window.open(deployUrls[platform], '_blank');
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-rocket"></i> Deploy Now';
+                    btn.disabled = false;
+                    showResult(`✅ Deployment page opened! Using your fork: ${forkRepo}`, 'success');
+                }, 3000);
+                
+            } catch (error) {
+                showResult('❌ Error verifying fork. Please try again.', 'error');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
-                
-                // Show success message
-                showResult(`✅ Opened ${platformNames[platform]} deployment page in new tab!`, 'success');
-                
-                // Reset after 5 seconds
-                setTimeout(() => {
-                    showResult(`Ready to deploy to other platforms or verify another user.`, 'info');
-                }, 5000);
-            }, 1500);
-        }
+                disableAllDeployButtons();
+            }
+        }, 2000);
+    }
 
-        // SHOW INSTRUCTIONS
-        function showInstructions(platform) {
-            const instructions = {
-                heroku: `
-                    <div class="instructions">
-                        <h4><i class="fab fa-heroku"></i> Heroku Deployment Guide</h4>
-                        <ol>
-                            <li><strong>Click "Deploy Now"</strong> - This opens Heroku with your repository pre-loaded</li>
-                            <li><strong>Log in to Heroku</strong> - Create account if needed (free tier available)</li>
-                            <li><strong>Configure App</strong>:
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>App name: <code>fee-xmd-yourname</code> (must be unique)</li>
-                                    <li>Choose region closest to you</li>
-                                    <li>Enable/disable add-ons as needed</li>
-                                </ul>
-                            </li>
-                            <li><strong>Set Environment Variables</strong> (REQUIRED):
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li><code>SESSION_ID</code> - Your session ID (e.g., "fee-xmd-session")</li>
-                                    <li><code>PREFIX</code> - Command prefix (default: <code>!</code>)</li>
-                                    <li><code>MODS</code> - Your phone number (e.g., <code>255764182801</code>)</li>
-                                </ul>
-                            </li>
-                            <li><strong>Deploy</strong> - Click "Deploy App" and wait for build to complete</li>
-                            <li><strong>Open App</strong> - Click "View" or check logs for QR code to scan</li>
-                        </ol>
-                    </div>
-                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(103, 98, 166, 0.1); border-radius: 12px;">
-                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
-                        <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li>Free Dyno sleeps after 30 mins of inactivity (good for testing)</li>
-                            <li>Upgrade to Hobby Dyno ($7/month) for 24/7 operation</li>
-                            <li>Add Heroku Redis for session persistence</li>
-                            <li>Enable auto-deploy from your GitHub fork</li>
-                        </ul>
-                    </div>
-                `,
-                railway: `
-                    <div class="instructions">
-                        <h4><i class="fas fa-train"></i> Railway Deployment Guide</h4>
-                        <ol>
-                            <li><strong>Click "Deploy Now"</strong> - Opens Railway with template</li>
-                            <li><strong>Log in with GitHub</strong> - Authorize Railway app access</li>
-                            <li><strong>Configure Project</strong>:
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>Project name: <code>fee-xmd-bot</code></li>
-                                    <li>Select your forked repository</li>
-                                    <li>Railway auto-detects Node.js settings</li>
-                                </ul>
-                            </li>
-                            <li><strong>Add Environment Variables</strong>:
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>Go to Project → Variables tab</li>
-                                    <li>Add: <code>SESSION_ID</code>, <code>PREFIX</code>, <code>MODS</code></li>
-                                    <li>Save and deployment restarts automatically</li>
-                                </ul>
-                            </li>
-                            <li><strong>Monitor Deployment</strong> - Check logs for QR code</li>
-                            <li><strong>Custom Domain</strong> (Optional) - Add in Settings tab</li>
-                        </ol>
-                    </div>
-                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(11, 13, 14, 0.1); border-radius: 12px;">
-                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
-                        <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li>Railway has generous always-on free tier</li>
-                            <li>Auto HTTPS included (no SSL setup needed)</li>
-                            <li>Built-in MongoDB database available</li>
-                            <li>Real-time logs and monitoring</li>
-                            <li>Easy scaling with one click</li>
-                        </ul>
-                    </div>
-                `,
-                render: `
-                    <div class="instructions">
-                        <h4><i class="fas fa-server"></i> Render Deployment Guide</h4>
-                        <ol>
-                            <li><strong>Click "Deploy Now"</strong> - Opens Render deployment page</li>
-                            <li><strong>Sign up</strong> - Use GitHub login (recommended)</li>
-                            <li><strong>Create Web Service</strong>:
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>Connect your GitHub account</li>
-                                    <li>Select your forked repository</li>
-                                    <li>Name: <code>fee-xmd-bot</code></li>
-                                    <li>Region: Choose closest to you</li>
-                                </ul>
-                            </li>
-                            <li><strong>Configure Build & Start</strong>:
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>Build Command: <code>npm install</code></li>
-                                    <li>Start Command: <code>npm start</code></li>
-                                    <li>Instance Type: Free (or upgrade)</li>
-                                </ul>
-                            </li>
-                            <li><strong>Add Environment Variables</strong> in Environment tab</li>
-                            <li><strong>Deploy</strong> - Click "Create Web Service"</li>
-                        </ol>
-                    </div>
-                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(70, 227, 183, 0.1); border-radius: 12px;">
-                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
-                        <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li>Free instance sleeps after 15 mins of inactivity</li>
-                            <li>Auto SSL certificates included</li>
-                            <li>Custom domain support available</li>
-                            <li>Simple dashboard for monitoring</li>
-                            <li>Manual and auto-deploy options</li>
-                        </ul>
-                    </div>
-                `,
-                koyeb: `
-                    <div class="instructions">
-                        <h4><i class="fas fa-cloud"></i> Koyeb Deployment Guide</h4>
-                        <ol>
-                            <li><strong>Click "Deploy Now"</strong> - Opens Koyeb deployment</li>
-                            <li><strong>Create Account</strong> - Email or GitHub login</li>
-                            <li><strong>Create App</strong>:
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>Go to "Apps" section</li>
-                                    <li>Click "Create App"</li>
-                                    <li>Select "GitHub" as source</li>
-                                </ul>
-                            </li>
-                            <li><strong>Configure App</strong>:
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>App name: <code>fee-xmd</code></li>
-                                    <li>Select your forked repository</li>
-                                    <li>Instance type: Nano (free)</li>
-                                    <li>Region: Auto-select or choose</li>
-                                </ul>
-                            </li>
-                            <li><strong>Add Environment Variables</strong> in App Settings</li>
-                            <li><strong>Deploy</strong> - Click "Deploy" button</li>
-                        </ol>
-                    </div>
-                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(18, 18, 18, 0.1); border-radius: 12px;">
-                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
-                        <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li>2 always-free nano instances included</li>
-                            <li>No credit card required for free tier</li>
-                            <li>Global edge network for low latency</li>
-                            <li>Native Docker support</li>
-                            <li>Built-in service mesh</li>
-                        </ul>
-                    </div>
-                `,
-                replit: `
-                    <div class="instructions">
-                        <h4><i class="fas fa-code"></i> Replit Deployment Guide</h4>
-                        <ol>
-                            <li><strong>Click "Deploy Now"</strong> - Opens Replit import page</li>
-                            <li><strong>Log in to Replit</strong> - Use GitHub login (recommended)</li>
-                            <li><strong>Import Repository</strong>:
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>Click "Create Repl"</li>
-                                    <li>Select "Import from GitHub"</li>
-                                    <li>Paste your forked repo URL</li>
-                                </ul>
-                            </li>
-                            <li><strong>Configure Repl</strong>:
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>Template: Node.js</li>
-                                    <li>Title: <code>Fee-XMD-Bot</code></li>
-                                    <li>Visibility: Public/Private</li>
-                                </ul>
-                            </li>
-                            <li><strong>Add Secrets</strong> (Environment Variables):
-                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>Go to Tools → Secrets</li>
-                                    <li>Add: <code>SESSION_ID</code>, <code>PREFIX</code>, <code>MODS</code></li>
-                                </ul>
-                            </li>
-                            <li><strong>Run Bot</strong> - Click "Run" button</li>
-                        </ol>
-                    </div>
-                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(102, 120, 129, 0.1); border-radius: 12px;">
-                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
-                        <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li>Always-on available with Replit Pro</li>
-                            <li>Live code editing with instant preview</li>
-                            <li>Built-in terminal for debugging</li>
-                            <li>Team collaboration features</li>
-                            <li>Easy forking and sharing</li>
-                        </ul>
-                    </div>
-                `
-            };
+    // SHOW INSTRUCTIONS
+    function showInstructions(platform) {
+        const instructions = {
+            heroku: `
+                <div class="instructions">
+                    <h4><i class="fab fa-heroku"></i> Heroku Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Heroku with YOUR fork pre-loaded</li>
+                        <li><strong>Log in to Heroku</strong> - Create account if needed</li>
+                        <li><strong>Configure App</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>App name: <code>fee-xmd-yourname</code></li>
+                                <li>Choose region closest to you</li>
+                            </ul>
+                        </li>
+                        <li><strong>Set Environment Variables</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li><code>SESSION_ID</code> - Your session ID</li>
+                                <li><code>PREFIX</code> - Command prefix</li>
+                                <li><code>MODS</code> - Your phone number</li>
+                            </ul>
+                        </li>
+                        <li><strong>Deploy</strong> - Click "Deploy App"</li>
+                    </ol>
+                </div>
+            `,
+            railway: `
+                <div class="instructions">
+                    <h4><i class="fas fa-train"></i> Railway Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Railway with YOUR fork</li>
+                        <li><strong>Log in with GitHub</strong></li>
+                        <li><strong>Configure Project</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Select YOUR forked repository</li>
+                                <li>Railway auto-detects settings</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Environment Variables</strong> in Variables tab</li>
+                        <li><strong>Deploy</strong> - Deployment starts automatically</li>
+                    </ol>
+                </div>
+            `,
+            render: `
+                <div class="instructions">
+                    <h4><i class="fas fa-server"></i> Render Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Render with YOUR fork</li>
+                        <li><strong>Sign up</strong> - Use GitHub login</li>
+                        <li><strong>Create Web Service</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Select YOUR forked repository</li>
+                                <li>Name: <code>fee-xmd-bot</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Configure Build & Start</strong></li>
+                        <li><strong>Add Environment Variables</strong></li>
+                        <li><strong>Deploy</strong> - Click "Create Web Service"</li>
+                    </ol>
+                </div>
+            `,
+            koyeb: `
+                <div class="instructions">
+                    <h4><i class="fas fa-cloud"></i> Koyeb Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Koyeb with YOUR fork</li>
+                        <li><strong>Create Account</strong> - Email or GitHub login</li>
+                        <li><strong>Create App</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Select "GitHub" as source</li>
+                                <li>Select YOUR forked repository</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Environment Variables</strong> in App Settings</li>
+                        <li><strong>Deploy</strong> - Click "Deploy" button</li>
+                    </ol>
+                </div>
+            `,
+            replit: `
+                <div class="instructions">
+                    <h4><i class="fas fa-code"></i> Replit Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Replit import</li>
+                        <li><strong>Log in to Replit</strong> - Use GitHub login</li>
+                        <li><strong>Import Repository</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Paste YOUR forked repo URL</li>
+                                <li>Select Node.js template</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Secrets</strong> in Tools → Secrets</li>
+                        <li><strong>Run Bot</strong> - Click "Run" button</li>
+                    </ol>
+                </div>
+            `
+        };
 
-            const titles = {
-                heroku: 'Heroku Deployment Guide',
-                railway: 'Railway Deployment Guide',
-                render: 'Render Deployment Guide',
-                koyeb: 'Koyeb Deployment Guide',
-                replit: 'Replit Deployment Guide'
-            };
+        const titles = {
+            heroku: 'Heroku Deployment Guide',
+            railway: 'Railway Deployment Guide',
+            render: 'Render Deployment Guide',
+            koyeb: 'Koyeb Deployment Guide',
+            replit: 'Replit Deployment Guide'
+        };
 
-            document.getElementById('modalTitle').textContent = titles[platform];
-            document.getElementById('modalContent').innerHTML = instructions[platform];
-            document.getElementById('instructionsModal').style.display = 'flex';
-        }
+        document.getElementById('modalTitle').textContent = titles[platform];
+        document.getElementById('modalContent').innerHTML = instructions[platform];
+        document.getElementById('instructionsModal').style.display = 'flex';
+    }
 
-        // CLOSE MODAL
-        function closeModal() {
-            document.getElementById('instructionsModal').style.display = 'none';
-        }
+    // CLOSE MODAL
+    function closeModal() {
+        document.getElementById('instructionsModal').style.display = 'none';
+        document.getElementById('forkModal').style.display = 'none';
+    }
 
-        // INITIAL SETUP
-        document.addEventListener('DOMContentLoaded', () => {
-            // Attach event listeners
-            verifyBtn.addEventListener('click', verifyGitHubUser);
-            
-            // Enter key support for GitHub input
-            document.getElementById('githubUsername').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    verifyGitHubUser();
+    // INITIAL SETUP
+    document.addEventListener('DOMContentLoaded', () => {
+        // Attach event listeners
+        verifyBtn.addEventListener('click', verifyGitHubUser);
+
+        // Enter key support for GitHub input
+        document.getElementById('githubUsername').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                verifyGitHubUser();
+            }
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        };
+
+        // Initial state: all deploy buttons disabled
+        disableAllDeployButtons();
+        
+        // Welcome message
+        setTimeout(() => {
+            showResult('🔒 Enter your GitHub username to verify fork status', 'info');
+        }, 1000);
+
+        // Auto-focus on input
+        document.getElementById('githubUsername').focus();
+        
+        // Add event listeners to all deploy buttons to double-check before deployment
+        Object.keys(deployButtons).forEach(platform => {
+            deployButtons[platform].addEventListener('click', (e) => {
+                if (!hasRealFork) {
+                    e.preventDefault();
+                    showResult('❌ Please fork the repository first', 'error');
+                    showForkModal();
                 }
             });
-
-            // Close modals when clicking outside
-            window.onclick = function(event) {
-                const modals = document.getElementsByClassName('modal');
-                for (let modal of modals) {
-                    if (event.target === modal) {
-                        modal.style.display = 'none';
-                    }
-                }
-            };
-
-            // Welcome message
-            setTimeout(() => {
-                showResult('👋 Welcome! Enter your GitHub username to start deployment.', 'info');
-            }, 1000);
-
-            // Auto-focus on input
-            document.getElementById('githubUsername').focus();
         });
-    </script>
+    });
+</script>
 </body>
 </html>
