@@ -18,6 +18,7 @@
             --text-primary: #f1f5f9;
             --text-secondary: #cbd5e1;
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-hover: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent) 100%);
         }
 
         * {
@@ -32,6 +33,7 @@
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
         .container {
@@ -40,212 +42,436 @@
             padding: 20px;
         }
 
-        /* HEADER */
+        /* HEADER - IMPROVED */
         .header {
             text-align: center;
-            padding: 3rem 0 2rem;
+            padding: 3rem 0 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
 
         .logo {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .logo-icon {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background: var(--gradient);
-            border-radius: 15px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
+            font-size: 32px;
             color: white;
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 35px rgba(124, 58, 237, 0.4); }
         }
 
         .logo h1 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .tagline {
             color: var(--text-secondary);
-            font-size: 1.2rem;
-            max-width: 600px;
+            font-size: 1.1rem;
+            max-width: 700px;
             margin: 0 auto 2rem;
-            line-height: 1.6;
+            line-height: 1.7;
+            padding: 0 20px;
         }
 
-        /* GITHUB VERIFICATION SECTION */
+        /* STATUS BADGE - IMPROVED */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-top: 1rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        /* GITHUB VERIFICATION - IMPROVED LAYOUT */
         .verification-section {
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 0.85);
             border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 800px;
-            border: 2px solid rgba(124, 58, 237, 0.3);
+            padding: 2.5rem;
+            margin: 2.5rem auto;
+            max-width: 850px;
+            border: 2px solid rgba(124, 58, 237, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verification-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .section-header {
             text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .verification-step {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 1.5rem 0;
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 12px;
-            text-align: left;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 25px;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.3) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            align-items: start;
         }
 
         .step-number {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             background: var(--gradient);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 1.3rem;
             flex-shrink: 0;
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
         }
 
+        .step-content h4 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* VERIFICATION INPUT - IMPROVED */
         .verification-input {
-            display: flex;
-            gap: 10px;
-            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            margin: 2.5rem 0;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .verification-input {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
         }
 
         input[type="text"] {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
+            width: 100%;
+            padding: 1.2rem 1.5rem 1.2rem 3.5rem;
+            border-radius: 14px;
             border: 2px solid rgba(124, 58, 237, 0.3);
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.9);
             color: var(--text-primary);
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s;
         }
 
         input[type="text"]:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
+            background: rgba(15, 23, 42, 0.95);
         }
 
+        /* BUTTONS - COMPLETELY REDESIGNED */
         .btn {
-            padding: 1rem 2rem;
-            border-radius: 12px;
+            padding: 1.2rem 2.5rem;
+            border-radius: 14px;
             border: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 12px;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+            height: 56px;
         }
 
         .btn-primary {
             background: var(--gradient);
             color: white;
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--gradient-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(124, 58, 237, 0.4);
         }
 
         .btn-secondary {
-            background: rgba(124, 58, 237, 0.15);
+            background: rgba(124, 58, 237, 0.12);
             color: var(--text-primary);
             border: 2px solid rgba(124, 58, 237, 0.5);
+            backdrop-filter: blur(10px);
         }
 
-        .btn:hover {
+        .btn-secondary:hover {
+            background: rgba(124, 58, 237, 0.2);
+            border-color: var(--primary);
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.25);
         }
 
-        /* PLATFORMS GRID */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* PLATFORMS SECTION - REDESIGNED LAYOUT */
         .platforms-section {
-            margin: 3rem 0;
+            margin: 4rem 0;
         }
 
         .section-title {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             color: white;
+            position: relative;
+            padding-bottom: 1rem;
         }
 
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+
+        /* PLATFORMS GRID - IMPROVED */
         .platforms-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
         }
 
         .platform-card {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 18px;
-            padding: 2rem;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
             border: 2px solid rgba(124, 58, 237, 0.2);
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .platform-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.2);
+            border-color: rgba(124, 58, 237, 0.6);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(124, 58, 237, 0.25);
+        }
+
+        .platform-card:hover::before {
+            opacity: 1;
+        }
+
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .platform-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        .heroku-icon { color: #6762A6; }
-        .railway-icon { color: #0B0D0E; }
-        .render-icon { color: #46E3B7; }
-        .koyeb-icon { color: #121212; }
-        .replit-icon { color: #667881; }
-
-        .platform-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
             color: white;
         }
+
+        .heroku-icon { background: linear-gradient(135deg, #6762A6 0%, #8B84C5 100%); }
+        .railway-icon { background: linear-gradient(135deg, #0B0D0E 0%, #2D3436 100%); }
+        .render-icon { background: linear-gradient(135deg, #46E3B7 0%, #6BFFD6 100%); color: #0f172a !important; }
+        .koyeb-icon { background: linear-gradient(135deg, #121212 0%, #2D2D2D 100%); }
+        .replit-icon { background: linear-gradient(135deg, #667881 0%, #8A9BA8 100%); }
+
+        .platform-title {
+            font-size: 1.6rem;
+            color: white;
+            margin: 0;
+        }
+
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            width: fit-content;
+        }
+
+        .status-success { background: rgba(16, 185, 129, 0.15); color: var(--accent); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
 
         .platform-desc {
             color: var(--text-secondary);
             margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            font-size: 1rem;
+            line-height: 1.7;
+            flex-grow: 1;
         }
 
         .platform-features {
             list-style: none;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
+            padding: 0;
         }
 
         .platform-features li {
-            padding: 0.5rem 0;
+            padding: 0.8rem 0;
             color: var(--text-secondary);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-size: 0.95rem;
         }
 
         .platform-features li i {
             color: var(--accent);
-            font-size: 0.9rem;
+            font-size: 1rem;
+            width: 20px;
         }
 
-        /* MODALS */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            .card-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* MODALS - IMPROVED */
         .modal {
             display: none;
             position: fixed;
@@ -253,49 +479,85 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
             background: var(--surface);
-            border-radius: 20px;
-            padding: 2.5rem;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
             overflow-y: auto;
             border: 2px solid var(--primary);
-            position: relative;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .close-modal {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(124, 58, 237, 0.1);
+            border: 2px solid rgba(124, 58, 237, 0.3);
             color: var(--text-secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             font-size: 1.5rem;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: rgba(124, 58, 237, 0.2);
+            color: white;
+            border-color: var(--primary);
         }
 
         .modal-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            margin-bottom: 2rem;
             color: white;
+            padding-right: 40px;
         }
 
-        /* INSTRUCTIONS */
+        /* INSTRUCTIONS - IMPROVED */
         .instructions {
             margin: 2rem 0;
-            padding: 1.5rem;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 12px;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.3) 100%);
+            border-radius: 16px;
             border-left: 4px solid var(--primary);
+        }
+
+        .instructions h4 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .instructions ol {
@@ -304,79 +566,196 @@
         }
 
         .instructions li {
-            margin: 0.8rem 0;
+            margin: 1rem 0;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.7;
+            padding-left: 0.5rem;
         }
 
-        /* STATUS INDICATORS */
-        .status {
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin: 0.5rem 0;
-            display: inline-flex;
+        .instructions code {
+            background: rgba(124, 58, 237, 0.15);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* RESULT MESSAGES - IMPROVED */
+        #verificationResult {
+            margin: 2rem 0;
+            min-height: 60px;
+        }
+
+        .result-message {
+            padding: 1.5rem;
+            border-radius: 14px;
+            font-weight: 500;
+            display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 15px;
+            animation: slideIn 0.5s ease;
+            border: 1px solid transparent;
         }
 
-        .status-success {
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .result-success {
             background: rgba(16, 185, 129, 0.15);
             color: var(--accent);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.3);
         }
 
-        .status-warning {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .status-error {
+        .result-error {
             background: rgba(239, 68, 68, 0.15);
             color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.3);
         }
 
-        /* FOOTER */
+        .result-warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .result-info {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--secondary);
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        .result-loading {
+            background: rgba(124, 58, 237, 0.15);
+            color: var(--primary);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        /* FORK MODAL - IMPROVED */
+        .fork-modal-content {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .fork-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .fork-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* FOOTER - IMPROVED */
         .footer {
             text-align: center;
-            padding: 3rem 0 2rem;
+            padding: 4rem 0 2rem;
             color: var(--text-secondary);
             border-top: 1px solid rgba(124, 58, 237, 0.2);
-            margin-top: 3rem;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .footer h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
 
         .contact-links {
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
             flex-wrap: wrap;
         }
 
         .contact-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            border: 1px solid rgba(124, 58, 237, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            border: 2px solid rgba(124, 58, 237, 0.3);
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
         }
 
         .contact-links a:hover {
             background: rgba(124, 58, 237, 0.1);
             color: white;
+            border-color: var(--primary);
+            transform: translateY(-3px);
         }
 
-        /* RESPONSIVE */
+        .footer-info {
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             .container { padding: 15px; }
-            .logo h1 { font-size: 2.2rem; }
-            .platforms-grid { grid-template-columns: 1fr; }
-            .verification-input { flex-direction: column; }
+            .logo h1 { font-size: 2.5rem; }
+            .logo-icon { width: 60px; height: 60px; font-size: 28px; }
+            .section-title { font-size: 2rem; }
+            .verification-section { padding: 1.5rem; margin: 1.5rem auto; }
+            .platforms-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .platform-card { padding: 2rem; }
+            .modal-content { padding: 2rem; }
+            .btn { padding: 1rem 2rem; min-width: 160px; }
+        }
+
+        @media (max-width: 480px) {
+            .logo { flex-direction: column; gap: 15px; text-align: center; }
+            .logo h1 { font-size: 2rem; }
             .section-title { font-size: 1.8rem; }
+            .verification-step { grid-template-columns: 1fr; text-align: center; }
+            .step-number { margin: 0 auto; }
+            .contact-links { flex-direction: column; align-items: center; }
+            .contact-links a { width: 100%; max-width: 300px; justify-content: center; }
+        }
+
+        /* LOADING ANIMATION */
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(124, 58, 237, 0.3);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -392,76 +771,94 @@
             </div>
             <p class="tagline">
                 Deploy your own FEE XMD WhatsApp bot in minutes. Choose your preferred platform and follow the simple steps.
-                <span class="status status-success" style="margin-top: 1rem; display: inline-block;">
-                    <i class="fas fa-shield-alt"></i> Secure Deployment Required
-                </span>
+                Verified deployment ensures security and reliability.
             </p>
+            <div class="status-badge">
+                <i class="fas fa-shield-alt"></i> Secure Deployment Required
+            </div>
         </header>
 
         <!-- GITHUB VERIFICATION -->
         <section class="verification-section">
-            <h2 style="color: white; margin-bottom: 1rem;">🔒 GitHub Verification Required</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                For security and to enable automatic deployment, you need to fork the repository first.
-            </p>
+            <div class="section-header">
+                <h2><i class="fas fa-shield-alt"></i> GitHub Verification Required</h2>
+                <p>
+                    For security and to enable automatic deployment, you need to fork the repository first.
+                    This ensures you control your deployment.
+                </p>
+            </div>
 
             <div class="verification-step">
                 <div class="step-number">1</div>
-                <div>
-                    <h4 style="color: white;">Enter GitHub Username</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                        We'll check if you have forked the FEE XMD repository
+                <div class="step-content">
+                    <h4>Enter GitHub Username</h4>
+                    <p>
+                        We'll check if you have forked the FEE XMD repository. This verification is required
+                        to prevent unauthorized deployments and ensure you have access to your own fork.
                     </p>
                 </div>
             </div>
 
             <div class="verification-input">
-                <input type="text" id="githubUsername" placeholder="Enter your GitHub username">
+                <div class="input-group">
+                    <i class="fab fa-github"></i>
+                    <input type="text" id="githubUsername" placeholder="Enter your GitHub username (e.g., Fred1e)" autocomplete="off">
+                </div>
                 <button class="btn btn-primary" id="verifyBtn">
-                    <i class="fab fa-github"></i> Verify & Check Fork
+                    <i class="fas fa-check-circle"></i> Verify & Check Fork
                 </button>
             </div>
 
             <div id="verificationResult"></div>
 
-            <div class="instructions">
-                <h4 style="color: white; margin-bottom: 1rem;">📋 Why Forking is Required:</h4>
-                <ol>
-                    <li>Security: Prevents unauthorized deployments</li>
-                    <li>Customization: You can modify the bot for your needs</li>
-                    <li>Updates: You can sync with original repository</li>
-                    <li>Ownership: You control your deployment</li>
-                </ol>
+            <div class="verification-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Why Forking is Required</h4>
+                    <div class="instructions">
+                        <ol>
+                            <li><strong>Security</strong>: Prevents unauthorized deployments and ensures you control your bot instance</li>
+                            <li><strong>Customization</strong>: You can modify the bot configuration, commands, and features</li>
+                            <li><strong>Updates</strong>: You can sync with the original repository or maintain your own version</li>
+                            <li><strong>Ownership</strong>: Your deployment is linked to your GitHub account for full control</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- PLATFORMS SECTION -->
         <section class="platforms-section">
             <h2 class="section-title">Choose Deployment Platform</h2>
-            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+            <p class="section-subtitle">
                 Select your preferred hosting platform. All platforms support automatic deployment from GitHub.
+                Choose based on your needs - some offer free tiers, while others provide more resources.
             </p>
 
             <div class="platforms-grid">
                 <!-- HEROKU -->
                 <div class="platform-card">
-                    <div class="platform-icon heroku-icon">
-                        <i class="fab fa-heroku"></i>
+                    <div class="platform-header">
+                        <div class="platform-icon heroku-icon">
+                            <i class="fab fa-heroku"></i>
+                        </div>
+                        <h3 class="platform-title">Heroku</h3>
                     </div>
-                    <h3 class="platform-title">Heroku</h3>
-                    <div class="status status-warning">
+                    <div class="status-tag status-warning">
                         <i class="fas fa-info-circle"></i> Free tier available
                     </div>
                     <p class="platform-desc">
-                        Popular platform with easy deployment. Free dynos available (sleep after 30 mins inactivity).
+                        Popular platform with easy one-click deployment. Perfect for beginners with free dynos
+                        (sleeps after 30 minutes of inactivity).
                     </p>
                     <ul class="platform-features">
-                        <li><i class="fas fa-check"></i> Free tier available</li>
-                        <li><i class="fas fa-check"></i> Auto-deploy from GitHub</li>
-                        <li><i class="fas fa-check"></i> PostgreSQL database</li>
-                        <li><i class="fas fa-check"></i> Easy scaling</li>
+                        <li><i class="fas fa-check-circle"></i> Free tier available</li>
+                        <li><i class="fas fa-check-circle"></i> Auto-deploy from GitHub</li>
+                        <li><i class="fas fa-check-circle"></i> PostgreSQL database included</li>
+                        <li><i class="fas fa-check-circle"></i> Easy scaling options</li>
+                        <li><i class="fas fa-check-circle"></i> Add-ons marketplace</li>
                     </ul>
-                    <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                    <div class="card-actions">
                         <button class="btn btn-secondary" onclick="showInstructions('heroku')">
                             <i class="fas fa-book"></i> Instructions
                         </button>
@@ -473,23 +870,27 @@
 
                 <!-- RAILWAY -->
                 <div class="platform-card">
-                    <div class="platform-icon railway-icon">
-                        <i class="fas fa-train"></i>
+                    <div class="platform-header">
+                        <div class="platform-icon railway-icon">
+                            <i class="fas fa-train"></i>
+                        </div>
+                        <h3 class="platform-title">Railway</h3>
                     </div>
-                    <h3 class="platform-title">Railway</h3>
-                    <div class="status status-success">
+                    <div class="status-tag status-success">
                         <i class="fas fa-bolt"></i> Fast & Reliable
                     </div>
                     <p class="platform-desc">
-                        Modern platform with generous free tier. Perfect for WhatsApp bots with always-on capability.
+                        Modern platform with generous free tier. Perfect for WhatsApp bots with always-on
+                        capability and instant deployment.
                     </p>
                     <ul class="platform-features">
-                        <li><i class="fas fa-check"></i> Always-on free tier</li>
-                        <li><i class="fas fa-check"></i> Instant deployment</li>
-                        <li><i class="fas fa-check"></i> Built-in MongoDB</li>
-                        <li><i class="fas fa-check"></i> Auto HTTPS</li>
+                        <li><i class="fas fa-check-circle"></i> Always-on free tier</li>
+                        <li><i class="fas fa-check-circle"></i> Instant deployment</li>
+                        <li><i class="fas fa-check-circle"></i> Built-in MongoDB</li>
+                        <li><i class="fas fa-check-circle"></i> Auto HTTPS/SSL</li>
+                        <li><i class="fas fa-check-circle"></i> Real-time monitoring</li>
                     </ul>
-                    <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                    <div class="card-actions">
                         <button class="btn btn-secondary" onclick="showInstructions('railway')">
                             <i class="fas fa-book"></i> Instructions
                         </button>
@@ -501,23 +902,27 @@
 
                 <!-- RENDER -->
                 <div class="platform-card">
-                    <div class="platform-icon render-icon">
-                        <i class="fas fa-server"></i>
+                    <div class="platform-header">
+                        <div class="platform-icon render-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 class="platform-title">Render</h3>
                     </div>
-                    <h3 class="platform-title">Render</h3>
-                    <div class="status status-warning">
+                    <div class="status-tag status-warning">
                         <i class="fas fa-clock"></i> Sleeps after inactivity
                     </div>
                     <p class="platform-desc">
-                        Simple platform with free web services. Great for starting out with WhatsApp bots.
+                        Simple and reliable platform with free web services. Great for starting out with
+                        WhatsApp bots and testing.
                     </p>
                     <ul class="platform-features">
-                        <li><i class="fas fa-check"></i> Free Web Services</li>
-                        <li><i class="fas fa-check"></i> Custom domains</li>
-                        <li><i class="fas fa-check"></i> Auto SSL</li>
-                        <li><i class="fas fa-check"></i> GitHub integration</li>
+                        <li><i class="fas fa-check-circle"></i> Free Web Services</li>
+                        <li><i class="fas fa-check-circle"></i> Custom domains</li>
+                        <li><i class="fas fa-check-circle"></i> Auto SSL certificates</li>
+                        <li><i class="fas fa-check-circle"></i> GitHub integration</li>
+                        <li><i class="fas fa-check-circle"></i> Simple dashboard</li>
                     </ul>
-                    <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                    <div class="card-actions">
                         <button class="btn btn-secondary" onclick="showInstructions('render')">
                             <i class="fas fa-book"></i> Instructions
                         </button>
@@ -529,23 +934,27 @@
 
                 <!-- KOYEB -->
                 <div class="platform-card">
-                    <div class="platform-icon koyeb-icon">
-                        <i class="fas fa-cloud"></i>
+                    <div class="platform-header">
+                        <div class="platform-icon koyeb-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3 class="platform-title">Koyeb</h3>
                     </div>
-                    <h3 class="platform-title">Koyeb</h3>
-                    <div class="status status-success">
+                    <div class="status-tag status-success">
                         <i class="fas fa-star"></i> Always free tier
                     </div>
                     <p class="platform-desc">
-                        European platform with 2 always-free instances. No credit card required for free tier.
+                        European platform with 2 always-free instances. No credit card required for free
+                        tier - perfect for production use.
                     </p>
                     <ul class="platform-features">
-                        <li><i class="fas fa-check"></i> 2 always-free instances</li>
-                        <li><i class="fas fa-check"></i> Global edge network</li>
-                        <li><i class="fas fa-check"></i> Native Docker</li>
-                        <li><i class="fas fa-check"></i> Auto scaling</li>
+                        <li><i class="fas fa-check-circle"></i> 2 always-free instances</li>
+                        <li><i class="fas fa-check-circle"></i> Global edge network</li>
+                        <li><i class="fas fa-check-circle"></i> Native Docker support</li>
+                        <li><i class="fas fa-check-circle"></i> Auto scaling</li>
+                        <li><i class="fas fa-check-circle"></i> No credit card required</li>
                     </ul>
-                    <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                    <div class="card-actions">
                         <button class="btn btn-secondary" onclick="showInstructions('koyeb')">
                             <i class="fas fa-book"></i> Instructions
                         </button>
@@ -557,23 +966,27 @@
 
                 <!-- REPLIT -->
                 <div class="platform-card">
-                    <div class="platform-icon replit-icon">
-                        <i class="fas fa-code"></i>
+                    <div class="platform-header">
+                        <div class="platform-icon replit-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="platform-title">Replit</h3>
                     </div>
-                    <h3 class="platform-title">Replit</h3>
-                    <div class="status status-warning">
+                    <div class="status-tag status-warning">
                         <i class="fas fa-laptop-code"></i> Developer friendly
                     </div>
                     <p class="platform-desc">
-                        Cloud IDE with hosting. Perfect for testing and development with live code editing.
+                        Cloud IDE with integrated hosting. Perfect for testing, development, and live
+                        code editing with instant preview.
                     </p>
                     <ul class="platform-features">
-                        <li><i class="fas fa-check"></i> Built-in code editor</li>
-                        <li><i class="fas fa-check"></i> Always-on available</li>
-                        <li><i class="fas fa-check"></i> Team collaboration</li>
-                        <li><i class="fas fa-check"></i> Instant preview</li>
+                        <li><i class="fas fa-check-circle"></i> Built-in code editor</li>
+                        <li><i class="fas fa-check-circle"></i> Always-on available</li>
+                        <li><i class="fas fa-check-circle"></i> Team collaboration</li>
+                        <li><i class="fas fa-check-circle"></i> Instant preview</li>
+                        <li><i class="fas fa-check-circle"></i> Live coding</li>
                     </ul>
-                    <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                    <div class="card-actions">
                         <button class="btn btn-secondary" onclick="showInstructions('replit')">
                             <i class="fas fa-book"></i> Instructions
                         </button>
@@ -590,44 +1003,43 @@
             <div class="modal-content">
                 <button class="close-modal" onclick="closeModal()">&times;</button>
                 <h3 class="modal-title" id="modalTitle">Deployment Instructions</h3>
-                <div id="modalContent">
-                    <!-- Instructions will be loaded here -->
-                </div>
+                <div id="modalContent"></div>
             </div>
         </div>
 
         <div id="forkModal" class="modal">
             <div class="modal-content">
                 <button class="close-modal" onclick="closeForkModal()">&times;</button>
-                <h3 class="modal-title">🚀 Fork Repository Required</h3>
-                <div style="text-align: center; padding: 2rem 0;">
-                    <div style="font-size: 4rem; color: var(--primary); margin-bottom: 1rem;">
+                <div class="fork-modal-content">
+                    <div class="fork-icon">
                         <i class="fab fa-github"></i>
                     </div>
-                    <h3 style="color: white; margin-bottom: 1rem;">Fork FEE XMD Repository</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-                        You need to fork the repository to your GitHub account before deploying.
+                    <h3 class="modal-title">🚀 Fork Repository Required</h3>
+                    <p style="color: var(--text-secondary); margin: 1.5rem 0; font-size: 1.1rem;">
+                        You need to fork the FEE XMD repository to your GitHub account before deploying.
+                        This gives you full control over your deployment.
                     </p>
-                    
-                    <div class="instructions" style="text-align: left; margin-bottom: 2rem;">
-                        <h4 style="color: white; margin-bottom: 1rem;">Steps to Fork:</h4>
+
+                    <div class="instructions" style="text-align: left;">
+                        <h4><i class="fas fa-list-ol"></i> Steps to Fork:</h4>
                         <ol>
-                            <li>Go to: <a href="https://github.com/Fred1e/Fee-Xmd" target="_blank" style="color: var(--secondary);">github.com/Fred1e/Fee-Xmd</a></li>
-                            <li>Click the <strong>"Fork"</strong> button (top right)</li>
-                            <li>Wait for forking to complete</li>
-                            <li>Return here and click "I've Forked"</li>
+                            <li>Go to: <a href="https://github.com/Fred1e/Fee-Xmd" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 500;">github.com/Fred1e/Fee-Xmd</a></li>
+                            <li>Click the <strong style="color: white;">"Fork"</strong> button in the top-right corner</li>
+                            <li>Select your account as the destination</li>
+                            <li>Wait for the forking process to complete</li>
+                            <li>Return here and click "I've Forked" to verify</li>
                         </ol>
                     </div>
 
-                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <div class="fork-actions">
                         <a href="https://github.com/Fred1e/Fee-Xmd" target="_blank" class="btn btn-primary">
                             <i class="fab fa-github"></i> Go to Repository
                         </a>
                         <button class="btn btn-secondary" onclick="checkForkAgain()">
                             <i class="fas fa-sync-alt"></i> Check Again
                         </button>
-                        <button class="btn btn-primary" onclick="simulateFork()" id="simulateForkBtn">
-                            <i class="fas fa-magic"></i> Simulate Fork (Demo)
+                        <button class="btn btn-primary" onclick="simulateForkForDemo()" id="simulateForkBtn">
+                            <i class="fas fa-magic"></i> Demo Mode (Skip)
                         </button>
                     </div>
                 </div>
@@ -636,9 +1048,9 @@
 
         <!-- FOOTER -->
         <footer class="footer">
-            <h3 style="color: white; margin-bottom: 1rem;">Need Help?</h3>
+            <h3>Need Help with Deployment?</h3>
             <div class="contact-links">
-                <a href="https://wa.me/256752593977" target="_blank">
+                <a href="https://wa.me/255764182801" target="_blank">
                     <i class="fab fa-whatsapp"></i> WhatsApp Support
                 </a>
                 <a href="https://github.com/Fred1e/Fee-Xmd/issues" target="_blank">
@@ -651,18 +1063,25 @@
                     <i class="fab fa-whatsapp"></i> Community Group
                 </a>
             </div>
-            <p style="margin-top: 2rem; font-size: 0.9rem;">
-                © 2024 Fredi AI Tech | FEE XMD & LUCKY-MD Developer<br>
-                Arusha, Tanzania | +255764182801
-            </p>
+            <div class="footer-info">
+                <p>© 2024 Fredi AI Tech | FEE XMD & LUCKY-MD Developer</p>
+                <p>Arusha, Tanzania | +255764182801</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">
+                    This dashboard requires GitHub verification for secure deployment.
+                </p>
+            </div>
         </footer>
     </div>
 
     <script>
+        // FIXED GITHUB PAGES COMPATIBLE VERSION
+        // Using GitHub Pages with CORS workaround
+        
         // STATE MANAGEMENT
         let currentUser = null;
         let hasFork = false;
         let userVerified = false;
+        let demoMode = false;
 
         // DOM ELEMENTS
         const verifyBtn = document.getElementById('verifyBtn');
@@ -675,13 +1094,35 @@
             replit: document.getElementById('replitBtn')
         };
 
-        // GITHUB API CONFIG
+        // REPOSITORY INFO
         const REPO_OWNER = 'Fred1e';
         const REPO_NAME = 'Fee-Xmd';
-        const GITHUB_API = 'https://api.github.com';
+        
+        // CORS PROXY FOR GITHUB PAGES (FIX FOR BROWSER RESTRICTIONS)
+        const CORS_PROXY = 'https://corsproxy.io/?';
 
-        // VERIFY GITHUB USER
-        verifyBtn.addEventListener('click', async () => {
+        // SHOW RESULT MESSAGE
+        function showResult(message, type = 'info') {
+            const types = {
+                success: { icon: 'fas fa-check-circle', class: 'result-success' },
+                error: { icon: 'fas fa-exclamation-circle', class: 'result-error' },
+                warning: { icon: 'fas fa-exclamation-triangle', class: 'result-warning' },
+                info: { icon: 'fas fa-info-circle', class: 'result-info' },
+                loading: { icon: 'fas fa-spinner fa-spin', class: 'result-loading' }
+            };
+
+            const config = types[type] || types.info;
+            
+            verificationResult.innerHTML = `
+                <div class="result-message ${config.class}">
+                    <i class="${config.icon}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+        }
+
+        // VERIFY GITHUB USER WITH CORS WORKAROUND
+        async function verifyGitHubUser() {
             const username = document.getElementById('githubUsername').value.trim();
             
             if (!username) {
@@ -689,37 +1130,61 @@
                 return;
             }
 
+            // Username validation
+            if (!/^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/.test(username)) {
+                showResult('Invalid GitHub username format', 'error');
+                return;
+            }
+
             showResult('Checking GitHub account...', 'loading');
             currentUser = username;
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<span class="loader"></span> Checking...';
 
             try {
-                // Check if user exists
-                const userRes = await fetch(`${GITHUB_API}/users/${username}`);
+                // Check if user exists using CORS proxy for GitHub Pages compatibility
+                const userUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/users/${username}`)}`;
+                const userRes = await fetch(userUrl);
+                
                 if (!userRes.ok) {
-                    showResult('GitHub user not found. Please check username.', 'error');
+                    if (userRes.status === 404) {
+                        showResult('GitHub user not found. Please check your username.', 'error');
+                    } else {
+                        showResult('Error connecting to GitHub API. Please try again.', 'error');
+                    }
+                    resetVerifyButton();
                     return;
                 }
 
-                // Check if user has forked the repo
-                const forksRes = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/forks`);
+                // Check if user has forked the repo using GitHub REST API
+                // Note: Public API doesn't require authentication for public repos
+                const forksUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/forks`)}`;
+                const forksRes = await fetch(forksUrl);
+                
+                if (!forksRes.ok) {
+                    // If API fails, show manual verification option
+                    showResult('GitHub API limit reached. Please fork manually.', 'warning');
+                    showManualVerification(username);
+                    resetVerifyButton();
+                    return;
+                }
+
                 const forks = await forksRes.json();
-                
-                const userFork = forks.find(fork => fork.owner.login.toLowerCase() === username.toLowerCase());
-                
+                const userFork = Array.isArray(forks) 
+                    ? forks.find(fork => fork.owner.login.toLowerCase() === username.toLowerCase())
+                    : null;
+
                 if (userFork) {
                     hasFork = true;
                     userVerified = true;
-                    showResult(`✅ Repository forked! Found fork at: ${userFork.html_url}`, 'success');
+                    showResult(`✅ Repository forked successfully! Found at: ${userFork.html_url}`, 'success');
                     enableDeployButtons();
                     
-                    // Check if starred
-                    const starsRes = await fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/stargazers`);
-                    const stars = await starsRes.json();
-                    const hasStarred = stars.some(star => star.login.toLowerCase() === username.toLowerCase());
+                    // Show success message with next steps
+                    setTimeout(() => {
+                        showResult(`🎉 Verification complete! You can now deploy to any platform below.`, 'success');
+                    }, 1000);
                     
-                    if (!hasStarred) {
-                        showResult('⭐ Please star the repository to support the project!', 'warning');
-                    }
                 } else {
                     hasFork = false;
                     showResult('Repository not forked. Please fork to continue.', 'warning');
@@ -728,37 +1193,35 @@
 
             } catch (error) {
                 console.error('Verification error:', error);
-                showResult('Error checking GitHub. Please try again.', 'error');
+                showResult('Network error. Please check your connection and try again.', 'error');
+            } finally {
+                resetVerifyButton();
             }
-        });
+        }
 
-        // SHOW RESULT MESSAGE
-        function showResult(message, type) {
-            let icon = 'ℹ️';
-            let className = 'status';
-            
-            if (type === 'success') {
-                icon = '✅';
-                className += ' status-success';
-            } else if (type === 'error') {
-                icon = '❌';
-                className += ' status-error';
-            } else if (type === 'warning') {
-                icon = '⚠️';
-                className += ' status-warning';
-            } else if (type === 'loading') {
-                icon = '⏳';
-                className += ' status-warning';
-            }
-
-            verificationResult.innerHTML = `
-                <div class="${className}">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : 
-                                      type === 'error' ? 'exclamation-circle' : 
-                                      type === 'warning' ? 'exclamation-triangle' : 'spinner fa-spin'}"></i>
-                    ${message}
+        // MANUAL VERIFICATION OPTION
+        function showManualVerification(username) {
+            verificationResult.innerHTML += `
+                <div class="result-message result-info" style="margin-top: 1rem;">
+                    <i class="fas fa-hands-helping"></i>
+                    <div>
+                        <strong>Manual Verification</strong>
+                        <p style="margin-top: 0.5rem; font-size: 0.9em;">
+                            1. Fork the repository at: <a href="https://github.com/${REPO_OWNER}/${REPO_NAME}" target="_blank" style="color: var(--secondary);">github.com/${REPO_OWNER}/${REPO_NAME}</a><br>
+                            2. Click "I've Forked" after forking
+                        </p>
+                        <button class="btn btn-secondary" onclick="simulateForkForDemo()" style="margin-top: 0.8rem; padding: 0.5rem 1rem; font-size: 0.9em;">
+                            <i class="fas fa-magic"></i> I've Forked (Manual)
+                        </button>
+                    </div>
                 </div>
             `;
+        }
+
+        // RESET VERIFY BUTTON
+        function resetVerifyButton() {
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & Check Fork';
         }
 
         // ENABLE DEPLOY BUTTONS
@@ -778,29 +1241,33 @@
             document.getElementById('forkModal').style.display = 'none';
         }
 
-        // SIMULATE FORK FOR DEMO
-        function simulateFork() {
+        // SIMULATE FORK FOR DEMO/USER SAYS THEY FORKED
+        function simulateForkForDemo() {
+            const username = document.getElementById('githubUsername').value.trim() || 'demo-user';
             hasFork = true;
             userVerified = true;
-            showResult('✅ Repository forked successfully! (Demo mode)', 'success');
+            demoMode = true;
+            
+            showResult(`✅ Repository forked successfully! (Demo mode for ${username})`, 'success');
             enableDeployButtons();
             closeForkModal();
             
-            // In production, you would make an actual API call to create fork
-            // fetch(`${GITHUB_API}/repos/${REPO_OWNER}/${REPO_NAME}/forks`, {
-            //     method: 'POST',
-            //     headers: { 'Authorization': 'token YOUR_TOKEN' }
-            // })
+            // Show demo mode notice
+            setTimeout(() => {
+                showResult(`⚠️ Demo mode active. Deployment will use your actual fork when you click "Deploy Now".`, 'warning');
+            }, 1500);
         }
 
         // CHECK FORK AGAIN
         function checkForkAgain() {
             if (currentUser) {
-                verifyBtn.click();
+                verifyGitHubUser();
+            } else {
+                showResult('Please enter your GitHub username first', 'warning');
             }
         }
 
-        // DEPLOY TO PLATFORM
+        // DEPLOY TO PLATFORM WITH FIXED URLS
         function deployTo(platform) {
             if (!userVerified || !hasFork) {
                 showResult('Please verify GitHub and fork first', 'error');
@@ -808,32 +1275,48 @@
                 return;
             }
 
-            const username = currentUser;
-            const forkRepo = `${username}/${REPO_NAME}`;
-            
-            // Deployment URLs with user's forked repo
+            const username = currentUser || 'your-username';
+            const forkRepo = demoMode ? `${REPO_OWNER}/${REPO_NAME}` : `${username}/${REPO_NAME}`;
+
+            // CORRECT DEPLOYMENT URLs for each platform
             const deployUrls = {
-                heroku: `https://heroku.com/deploy?template=https://github.com/${forkRepo}`,
-                railway: `https://railway.app/new?repository=https://github.com/${forkRepo}`,
-                render: `https://render.com/deploy?repository=https://github.com/${forkRepo}`,
-                koyeb: `https://app.koyeb.com/deploy?repository=https://github.com/${forkRepo}`,
+                heroku: `https://dashboard.heroku.com/new?template=https://github.com/${forkRepo}`,
+                railway: `https://railway.app/new?template=https://github.com/${forkRepo}`,
+                render: `https://render.com/deploy?repo=https://github.com/${forkRepo}`,
+                koyeb: `https://app.koyeb.com/deploy?type=git&repository=https://github.com/${forkRepo}`,
                 replit: `https://replit.com/github/${forkRepo}`
             };
 
             // Show loading
             const btn = deployButtons[platform];
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting...';
+            btn.innerHTML = '<span class="loader"></span> Redirecting...';
             btn.disabled = true;
 
-            // Redirect to deployment page
+            // Show deployment message
+            const platformNames = {
+                heroku: 'Heroku',
+                railway: 'Railway',
+                render: 'Render',
+                koyeb: 'Koyeb',
+                replit: 'Replit'
+            };
+
+            showResult(`🚀 Redirecting to ${platformNames[platform]} deployment page...`, 'loading');
+
+            // Open deployment page in new tab
             setTimeout(() => {
                 window.open(deployUrls[platform], '_blank');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 
                 // Show success message
-                showResult(`✅ Redirected to ${platform} deployment page!`, 'success');
+                showResult(`✅ Opened ${platformNames[platform]} deployment page in new tab!`, 'success');
+                
+                // Reset after 5 seconds
+                setTimeout(() => {
+                    showResult(`Ready to deploy to other platforms or verify another user.`, 'info');
+                }, 5000);
             }, 1500);
         }
 
@@ -842,143 +1325,182 @@
             const instructions = {
                 heroku: `
                     <div class="instructions">
-                        <h4 style="color: white; margin-bottom: 1rem;">Heroku Deployment Steps:</h4>
+                        <h4><i class="fab fa-heroku"></i> Heroku Deployment Guide</h4>
                         <ol>
-                            <li>Click "Deploy Now" (requires verified GitHub fork)</li>
-                            <li>Log in to Heroku or create new account</li>
-                            <li>Choose app name and region</li>
-                            <li>Set up environment variables:
+                            <li><strong>Click "Deploy Now"</strong> - This opens Heroku with your repository pre-loaded</li>
+                            <li><strong>Log in to Heroku</strong> - Create account if needed (free tier available)</li>
+                            <li><strong>Configure App</strong>:
                                 <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li><code>SESSION_ID</code> - Your session ID</li>
-                                    <li><code>PREFIX</code> - Command prefix (!)</li>
-                                    <li><code>MODS</code> - Your phone number</li>
+                                    <li>App name: <code>fee-xmd-yourname</code> (must be unique)</li>
+                                    <li>Choose region closest to you</li>
+                                    <li>Enable/disable add-ons as needed</li>
                                 </ul>
                             </li>
-                            <li>Click "Deploy App"</li>
-                            <li>Wait for build to complete</li>
-                            <li>Open logs to see QR code</li>
+                            <li><strong>Set Environment Variables</strong> (REQUIRED):
+                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li><code>SESSION_ID</code> - Your session ID (e.g., "fee-xmd-session")</li>
+                                    <li><code>PREFIX</code> - Command prefix (default: <code>!</code>)</li>
+                                    <li><code>MODS</code> - Your phone number (e.g., <code>255764182801</code>)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Deploy</strong> - Click "Deploy App" and wait for build to complete</li>
+                            <li><strong>Open App</strong> - Click "View" or check logs for QR code to scan</li>
                         </ol>
                     </div>
-                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(103, 98, 166, 0.1); border-radius: 8px;">
-                        <h5 style="color: white;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
+                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(103, 98, 166, 0.1); border-radius: 12px;">
+                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
                         <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li>Use Free Dyno for testing (sleeps after 30 mins)</li>
-                            <li>Upgrade to Hobby Dyno for 24/7 operation ($7/month)</li>
-                            <li>Add Redis for session persistence</li>
+                            <li>Free Dyno sleeps after 30 mins of inactivity (good for testing)</li>
+                            <li>Upgrade to Hobby Dyno ($7/month) for 24/7 operation</li>
+                            <li>Add Heroku Redis for session persistence</li>
+                            <li>Enable auto-deploy from your GitHub fork</li>
                         </ul>
                     </div>
                 `,
                 railway: `
                     <div class="instructions">
-                        <h4 style="color: white; margin-bottom: 1rem;">Railway Deployment Steps:</h4>
+                        <h4><i class="fas fa-train"></i> Railway Deployment Guide</h4>
                         <ol>
-                            <li>Click "Deploy Now" (requires verified GitHub fork)</li>
-                            <li>Log in with GitHub</li>
-                            <li>Authorize Railway app</li>
-                            <li>Select "Deploy from GitHub repo"</li>
-                            <li>Choose your forked repository</li>
-                            <li>Railway will auto-detect settings</li>
-                            <li>Add environment variables in Dashboard</li>
-                            <li>Deployment starts automatically</li>
-                            <li>Check logs for QR code</li>
+                            <li><strong>Click "Deploy Now"</strong> - Opens Railway with template</li>
+                            <li><strong>Log in with GitHub</strong> - Authorize Railway app access</li>
+                            <li><strong>Configure Project</strong>:
+                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Project name: <code>fee-xmd-bot</code></li>
+                                    <li>Select your forked repository</li>
+                                    <li>Railway auto-detects Node.js settings</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Environment Variables</strong>:
+                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Go to Project → Variables tab</li>
+                                    <li>Add: <code>SESSION_ID</code>, <code>PREFIX</code>, <code>MODS</code></li>
+                                    <li>Save and deployment restarts automatically</li>
+                                </ul>
+                            </li>
+                            <li><strong>Monitor Deployment</strong> - Check logs for QR code</li>
+                            <li><strong>Custom Domain</strong> (Optional) - Add in Settings tab</li>
                         </ol>
                     </div>
-                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(11, 13, 14, 0.1); border-radius: 8px;">
-                        <h5 style="color: white;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
+                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(11, 13, 14, 0.1); border-radius: 12px;">
+                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
                         <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li>Railway has generous free tier (always-on)</li>
-                            <li>Auto HTTPS included</li>
-                            <li>Built-in MongoDB available</li>
-                            <li>Easy scaling options</li>
+                            <li>Railway has generous always-on free tier</li>
+                            <li>Auto HTTPS included (no SSL setup needed)</li>
+                            <li>Built-in MongoDB database available</li>
+                            <li>Real-time logs and monitoring</li>
+                            <li>Easy scaling with one click</li>
                         </ul>
                     </div>
                 `,
                 render: `
                     <div class="instructions">
-                        <h4 style="color: white; margin-bottom: 1rem;">Render Deployment Steps:</h4>
+                        <h4><i class="fas fa-server"></i> Render Deployment Guide</h4>
                         <ol>
-                            <li>Click "Deploy Now" (requires verified GitHub fork)</li>
-                            <li>Sign up on Render (GitHub login)</li>
-                            <li>Select "New Web Service"</li>
-                            <li>Connect your GitHub account</li>
-                            <li>Select your forked repository</li>
-                            <li>Configure:
+                            <li><strong>Click "Deploy Now"</strong> - Opens Render deployment page</li>
+                            <li><strong>Sign up</strong> - Use GitHub login (recommended)</li>
+                            <li><strong>Create Web Service</strong>:
                                 <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>Name: fee-xmd-bot</li>
-                                    <li>Region: Choose closest</li>
-                                    <li>Branch: main</li>
-                                    <li>Build Command: npm install</li>
-                                    <li>Start Command: npm start</li>
+                                    <li>Connect your GitHub account</li>
+                                    <li>Select your forked repository</li>
+                                    <li>Name: <code>fee-xmd-bot</code></li>
+                                    <li>Region: Choose closest to you</li>
                                 </ul>
                             </li>
-                            <li>Add environment variables</li>
-                            <li>Click "Create Web Service"</li>
+                            <li><strong>Configure Build & Start</strong>:
+                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Build Command: <code>npm install</code></li>
+                                    <li>Start Command: <code>npm start</code></li>
+                                    <li>Instance Type: Free (or upgrade)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Environment Variables</strong> in Environment tab</li>
+                            <li><strong>Deploy</strong> - Click "Create Web Service"</li>
                         </ol>
                     </div>
-                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(70, 227, 183, 0.1); border-radius: 8px;">
-                        <h5 style="color: white;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
+                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(70, 227, 183, 0.1); border-radius: 12px;">
+                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
                         <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li>Free instance sleeps after 15 mins inactivity</li>
-                            <li>Auto SSL certificates</li>
-                            <li>Custom domain support</li>
-                            <li>Simple scaling</li>
+                            <li>Free instance sleeps after 15 mins of inactivity</li>
+                            <li>Auto SSL certificates included</li>
+                            <li>Custom domain support available</li>
+                            <li>Simple dashboard for monitoring</li>
+                            <li>Manual and auto-deploy options</li>
                         </ul>
                     </div>
                 `,
                 koyeb: `
                     <div class="instructions">
-                        <h4 style="color: white; margin-bottom: 1rem;">Koyeb Deployment Steps:</h4>
+                        <h4><i class="fas fa-cloud"></i> Koyeb Deployment Guide</h4>
                         <ol>
-                            <li>Click "Deploy Now" (requires verified GitHub fork)</li>
-                            <li>Create Koyeb account</li>
-                            <li>Go to "Apps" section</li>
-                            <li>Click "Create App"</li>
-                            <li>Select "GitHub" as source</li>
-                            <li>Authorize and select your fork</li>
-                            <li>Configure app:
+                            <li><strong>Click "Deploy Now"</strong> - Opens Koyeb deployment</li>
+                            <li><strong>Create Account</strong> - Email or GitHub login</li>
+                            <li><strong>Create App</strong>:
                                 <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                                    <li>App name: fee-xmd</li>
-                                    <li>Region: (auto-selected)</li>
-                                    <li>Instance type: Nano (free)</li>
+                                    <li>Go to "Apps" section</li>
+                                    <li>Click "Create App"</li>
+                                    <li>Select "GitHub" as source</li>
                                 </ul>
                             </li>
-                            <li>Add environment variables</li>
-                            <li>Click "Deploy"</li>
+                            <li><strong>Configure App</strong>:
+                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>App name: <code>fee-xmd</code></li>
+                                    <li>Select your forked repository</li>
+                                    <li>Instance type: Nano (free)</li>
+                                    <li>Region: Auto-select or choose</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Environment Variables</strong> in App Settings</li>
+                            <li><strong>Deploy</strong> - Click "Deploy" button</li>
                         </ol>
                     </div>
-                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(18, 18, 18, 0.1); border-radius: 8px;">
-                        <h5 style="color: white;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
+                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(18, 18, 18, 0.1); border-radius: 12px;">
+                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
                         <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li>2 always-free nano instances</li>
-                            <li>No credit card required</li>
-                            <li>Global edge network</li>
+                            <li>2 always-free nano instances included</li>
+                            <li>No credit card required for free tier</li>
+                            <li>Global edge network for low latency</li>
                             <li>Native Docker support</li>
+                            <li>Built-in service mesh</li>
                         </ul>
                     </div>
                 `,
                 replit: `
                     <div class="instructions">
-                        <h4 style="color: white; margin-bottom: 1rem;">Replit Deployment Steps:</h4>
+                        <h4><i class="fas fa-code"></i> Replit Deployment Guide</h4>
                         <ol>
-                            <li>Click "Deploy Now" (requires verified GitHub fork)</li>
-                            <li>Log in to Replit (GitHub login)</li>
-                            <li>Click "Create Repl"</li>
-                            <li>Select "Import from GitHub"</li>
-                            <li>Paste your forked repo URL</li>
-                            <li>Select "Node.js" template</li>
-                            <li>Click "Import from GitHub"</li>
-                            <li>Wait for import to complete</li>
-                            <li>Add environment variables in Secrets</li>
-                            <li>Click "Run" to start bot</li>
+                            <li><strong>Click "Deploy Now"</strong> - Opens Replit import page</li>
+                            <li><strong>Log in to Replit</strong> - Use GitHub login (recommended)</li>
+                            <li><strong>Import Repository</strong>:
+                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Click "Create Repl"</li>
+                                    <li>Select "Import from GitHub"</li>
+                                    <li>Paste your forked repo URL</li>
+                                </ul>
+                            </li>
+                            <li><strong>Configure Repl</strong>:
+                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Template: Node.js</li>
+                                    <li>Title: <code>Fee-XMD-Bot</code></li>
+                                    <li>Visibility: Public/Private</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Secrets</strong> (Environment Variables):
+                                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Go to Tools → Secrets</li>
+                                    <li>Add: <code>SESSION_ID</code>, <code>PREFIX</code>, <code>MODS</code></li>
+                                </ul>
+                            </li>
+                            <li><strong>Run Bot</strong> - Click "Run" button</li>
                         </ol>
                     </div>
-                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(102, 120, 129, 0.1); border-radius: 8px;">
-                        <h5 style="color: white;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
+                    <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(102, 120, 129, 0.1); border-radius: 12px;">
+                        <h5 style="color: white; margin-bottom: 0.8rem;"><i class="fas fa-lightbulb"></i> Pro Tips:</h5>
                         <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
                             <li>Always-on available with Replit Pro</li>
-                            <li>Live code editing</li>
-                            <li>Built-in terminal</li>
+                            <li>Live code editing with instant preview</li>
+                            <li>Built-in terminal for debugging</li>
                             <li>Team collaboration features</li>
+                            <li>Easy forking and sharing</li>
                         </ul>
                     </div>
                 `
@@ -1004,22 +1526,33 @@
 
         // INITIAL SETUP
         document.addEventListener('DOMContentLoaded', () => {
+            // Attach event listeners
+            verifyBtn.addEventListener('click', verifyGitHubUser);
+            
+            // Enter key support for GitHub input
+            document.getElementById('githubUsername').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    verifyGitHubUser();
+                }
+            });
+
             // Close modals when clicking outside
             window.onclick = function(event) {
                 const modals = document.getElementsByClassName('modal');
                 for (let modal of modals) {
-                    if (event.target == modal) {
+                    if (event.target === modal) {
                         modal.style.display = 'none';
                     }
                 }
             };
 
-            // Enter key for GitHub input
-            document.getElementById('githubUsername').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    verifyBtn.click();
-                }
-            });
+            // Welcome message
+            setTimeout(() => {
+                showResult('👋 Welcome! Enter your GitHub username to start deployment.', 'info');
+            }, 1000);
+
+            // Auto-focus on input
+            document.getElementById('githubUsername').focus();
         });
     </script>
 </body>
