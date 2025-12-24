@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: fee-xmd-dashboard
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.17.0
+    healthCheckPath: /health
+    autoDeploy: true
