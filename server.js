@@ -1,5 +1,4 @@
-const app = express();
-__path = process.cwd()
+const app __path = process.cwd()
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 8000;
 
