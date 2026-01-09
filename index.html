@@ -1,13 +1,13 @@
+ hello i want new updates to this  dashboard script and aworking nahitaji uboreshe iwe inaanza dashboard ya ku verify fork then ikishakua comfirmed verified fork inajiseti new dashboard ya cloudy kwa user husika. errors naona errors upande wa ku verify kwani mtu anaeza pass way ya ku fork kwa kueka bot owner username na ikawa passed bila luona kama account ndiyo iliyakua loged na mhusika ama vp jaribu kuboresha eneo hilo 
+please boresha place ya platforms weka zote kwa usahihi na css pia pangilia na uboreshe then look place ya verificatiot iwe inaweza ku scan good kwa account kwani kuna user mwingine anaeza fork repo lakin akabadilisha jina badala ya fee-xmd yeye akaweka fork kwa jina lingine so boresha iweze kuona repo
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FEE XMD - Secure Deploy Dashboard</title>
+    <title>FEE XMD - Deploy Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* CSS yako ya awali inabaki sawa - nimeongeza hizi classes tu */
-
         :root {
             --primary: #7c3aed;
             --primary-dark: #5b21b6;
@@ -78,7 +78,7 @@
             border-radius: 18px;
             display: flex;
             align-items: center;
-            justify-content: center;
+           justify-content: center;
             font-size: 32px;
             color: white;
             box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
@@ -759,441 +759,117 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
-        /* NEW: Multi-step verification */
-        .verification-steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin: 2.5rem 0;
-        }
-
-        @media (max-width: 768px) {
-            .verification-steps {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .verification-step-card {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.6) 100%);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            border: 2px solid rgba(124, 58, 237, 0.2);
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .verification-step-card.active {
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.25);
-        }
-
-        .verification-step-card.completed {
-            border-color: var(--accent);
-            background: linear-gradient(145deg, rgba(16, 185, 129, 0.1) 0%, rgba(30, 41, 59, 0.6) 100%);
-        }
-
-        .step-indicator {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-weight: bold;
-            color: white;
-            font-size: 1.2rem;
-        }
-
-        .verification-step-card.completed .step-indicator {
-            background: var(--accent);
-        }
-
-        .step-title {
-            font-size: 1.1rem;
-            color: white;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .step-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .step-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 1rem;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .status-pending {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .status-success {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--accent);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .status-failed {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        /* NEW: Account verification section */
-        .account-verification {
-            background: rgba(30, 41, 59, 0.85);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin: 2.5rem auto;
-            max-width: 850px;
-            border: 2px solid rgba(124, 58, 237, 0.25);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .verification-methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .verification-method {
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            border: 2px solid rgba(124, 58, 237, 0.2);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .verification-method:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .verification-method i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .method-title {
-            font-size: 1.1rem;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .method-desc {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        /* NEW: Cloudy Dashboard Styles */
-        .cloudy-dashboard {
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
-
-        .cloudy-dashboard.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .user-welcome {
-            text-align: center;
-            padding: 3rem 0;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
-            border-radius: 20px;
-            margin-bottom: 2rem;
-            border: 2px solid rgba(124, 58, 237, 0.3);
-        }
-
-        .user-avatar {
-            width: 100px;
-            height: 100px;
-            background: var(--gradient);
-            border-radius: 50%;
-            margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: white;
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
-        }
-
-        .user-info {
-            margin-top: 1.5rem;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 0.5rem 0;
-            color: var(--text-secondary);
-        }
-
-        .info-item strong {
-            color: white;
-            min-width: 120px;
-            text-align: right;
-        }
-
-        /* NEW: Security measures */
-        .security-alert {
-            background: rgba(239, 68, 68, 0.1);
-            border: 2px solid rgba(239, 68, 68, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .security-alert.warning {
-            background: rgba(245, 158, 11, 0.1);
-            border-color: rgba(245, 158, 11, 0.3);
-        }
-
-        .security-alert.success {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-
-        /* NEW: Loading states */
-        .verification-loading {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .verification-loading.active {
-            display: block;
-        }
-
-        .verification-loading .loader {
-            width: 50px;
-            height: 50px;
-            border-width: 4px;
-            margin: 0 auto 1rem;
-        }
-
-        /* NEW: Session verification */
-        .session-info {
-            background: rgba(124, 58, 237, 0.1);
-            border-radius: 12px;
-            padding: 1rem;
-            margin: 1rem 0;
-            border: 1px solid rgba(124, 58, 237, 0.3);
-        }
-
-        .session-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
-        }
-
-        .session-item:last-child {
-            border-bottom: none;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- STAGE 1: INITIAL VERIFICATION DASHBOARD -->
-        <div id="initialDashboard" class="deploy-dashboard">
-            <!-- HEADER -->
-            <header class="header">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h1>FEE XMD Secure Deploy</h1>
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
                 </div>
-                <p class="tagline">
-                    Secure deployment with multi-stage verification. Prevent bot accounts and ensure only authorized users can deploy.
-                </p>
-                <div class="status-badge">
-                    <i class="fas fa-user-shield"></i> Multi-factor Verification Required
-                </div>
-            </header>
+                <h1>FEE XMD Deployment</h1>
+            </div>
+            <p class="tagline">
+                Deploy your own FEE XMD WhatsApp bot in minutes. Choose your preferred platform and follow the simple steps.
+                Verified deployment ensures security and reliability.
+            </p>
+            <div class="status-badge">
+                <i class="fas fa-shield-alt"></i> Secure Deployment Required
+            </div>
+        </header>
 
-            <!-- MULTI-STEP VERIFICATION -->
-            <section class="verification-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-layer-group"></i> 3-Step Verification Process</h2>
+        <!-- GITHUB VERIFICATION -->
+        <section class="verification-section">
+            <div class="section-header">
+                <h2><i class="fas fa-shield-alt"></i> GitHub Verification Required</h2>
+                <p>
+                    For security and to enable automatic deployment, you need to fork the repository first.
+                    This ensures you control your deployment.
+                </p>
+            </div>
+
+            <div class="verification-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Enter GitHub Username</h4>
                     <p>
-                        Complete all verification steps to access deployment. Each step prevents unauthorized access.
+                        We'll check if you have forked the FEE XMD repository. This verification is required
+                        to prevent unauthorized deployments and ensure you have access to your own fork.
                     </p>
                 </div>
+            </div>
 
-                <div class="verification-steps">
-                    <!-- Step 1: GitHub Account -->
-                    <div class="verification-step-card active" id="step1">
-                        <div class="step-indicator">1</div>
-                        <div class="step-title">GitHub Account</div>
-                        <div class="step-desc">Verify your GitHub account exists and is active</div>
-                        <div class="step-status status-pending">
-                            <i class="fas fa-clock"></i> Pending
-                        </div>
-                    </div>
+            <div class="verification-input">
+                <div class="input-group">
+                    <i class="fab fa-github"></i>
+                    <input type="text" id="githubUsername" placeholder="Enter your GitHub username (e.g., Fred1e)" autocomplete="off">
+                </div>
+                <button class="btn btn-primary" id="verifyBtn">
+                    <i class="fas fa-check-circle"></i> Verify & Check Fork
+                </button>
+            </div>
 
-                    <!-- Step 2: Repository Fork -->
-                    <div class="verification-step-card" id="step2">
-                        <div class="step-indicator">2</div>
-                        <div class="step-title">Repository Fork</div>
-                        <div class="step-desc">Confirm you have forked the repository</div>
-                        <div class="step-status status-pending">
-                            <i class="fas fa-clock"></i> Pending
-                        </div>
-                    </div>
+            <div id="verificationResult"></div>
 
-                    <!-- Step 3: Session Verification -->
-                    <div class="verification-step-card" id="step3">
-                        <div class="step-indicator">3</div>
-                        <div class="step-title">Session Verification</div>
-                        <div class="step-desc">Verify you own the GitHub account</div>
-                        <div class="step-status status-pending">
-                            <i class="fas fa-clock"></i> Pending
-                        </div>
+            <div class="verification-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Why Forking is Required</h4>
+                    <div class="instructions">
+                        <ol>
+                            <li><strong>Security</strong>: Prevents unauthorized deployments and ensures you control your bot instance</li>
+                            <li><strong>Customization</strong>: You can modify the bot configuration, commands, and features</li>
+                            <li><strong>Updates</strong>: You can sync with the original repository or maintain your own version</li>
+                            <li><strong>Ownership</strong>: Your deployment is linked to your GitHub account for full control</li>
+                        </ol>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- GITHUB VERIFICATION INPUT -->
-                <div class="verification-input">
-                    <div class="input-group">
-                        <i class="fab fa-github"></i>
-                        <input type="text" id="githubUsername" placeholder="Enter your REAL GitHub username" autocomplete="off">
+        <!-- PLATFORMS SECTION -->
+        <section class="platforms-section">
+            <h2 class="section-title">Choose Deployment Platform</h2>
+            <p class="section-subtitle">
+                Select your preferred hosting platform. All platforms support automatic deployment from GitHub.
+                Choose based on your needs - some offer free tiers, while others provide more resources.
+            </p>
+
+            <div class="platforms-grid">
+                <!-- HEROKU -->
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <div class="platform-icon heroku-icon">
+                            <i class="fab fa-heroku"></i>
+                        </div>
+                        <h3 class="platform-title">Heroku</h3>
                     </div>
-                    <button class="btn btn-primary" id="startVerificationBtn">
-                        <i class="fas fa-play-circle"></i> Start Verification
-                    </button>
-                </div>
-
-                <!-- VERIFICATION LOADING -->
-                <div class="verification-loading" id="verificationLoading">
-                    <div class="loader"></div>
-                    <p style="margin-top: 1rem; color: var(--text-secondary);">
-                        Verifying account security... Please wait
+                    <div class="status-tag status-warning">
+                        <i class="fas fa-info-circle"></i> Free tier available
+                    </div>
+                    <p class="platform-desc">
+                        Popular platform with easy one-click deployment. Perfect for beginners with free dynos
+                        (sleeps after 30 minutes of inactivity).
                     </p>
-                </div>
-
-                <!-- VERIFICATION RESULT -->
-                <div id="verificationResult"></div>
-
-                <!-- SECURITY ALERT -->
-                <div class="security-alert warning" id="securityAlert">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div>
-                        <strong>Security Notice:</strong> We verify that YOU are the actual owner of the GitHub account.
-                        Bot accounts and unauthorized users will be blocked.
+                    <ul class="platform-features">
+                        <li><i class="fas fa-check-circle"></i> Free tier available</li>
+                        <li><i class="fas fa-check-circle"></i> Auto-deploy from GitHub</li>
+                        <li><i class="fas fa-check-circle"></i> PostgreSQL database included</li>
+                        <li><i class="fas fa-check-circle"></i> Easy scaling options</li>
+                        <li><i class="fas fa-check-circle"></i> Add-ons marketplace</li>
+                    </ul>
+                    <div class="card-actions">
+                        <button class="btn btn-secondary" onclick="showInstructions('heroku')">
+                            <i class="fas fa-book"></i> Instructions
+                        </button>
+                        <button class="btn btn-primary" onclick="deployTo('heroku')" disabled id="herokuBtn">
+                            <i class="fas fa-rocket"></i> Deploy Now
+                        </button>
                     </div>
                 </div>
 
-                <!-- ACCOUNT VERIFICATION METHODS -->
-                <div class="account-verification" id="accountVerification" style="display: none;">
-                    <div class="section-header">
-                        <h2><i class="fas fa-fingerprint"></i> Account Ownership Verification</h2>
-                        <p>
-                            Prove you own this GitHub account. Choose one verification method:
-                        </p>
-                    </div>
-
-                    <div class="verification-methods">
-                        <div class="verification-method" onclick="verifyViaRecentActivity()">
-                            <i class="fas fa-history"></i>
-                            <div class="method-title">Recent Activity</div>
-                            <div class="method-desc">Check your recent GitHub activity</div>
-                            <div class="status-tag status-pending">
-                                <i class="fas fa-clock"></i> Verify
-                            </div>
-                        </div>
-
-                        <div class="verification-method" onclick="verifyViaProfileData()">
-                            <i class="fas fa-user-circle"></i>
-                            <div class="method-title">Profile Data</div>
-                            <div class="method-desc">Verify account creation date & bio</div>
-                            <div class="status-tag status-pending">
-                                <i class="fas fa-clock"></i> Verify
-                            </div>
-                        </div>
-
-                        <div class="verification-method" onclick="verifyViaRepository()">
-                            <i class="fas fa-code-branch"></i>
-                            <div class="method-title">Repository Check</div>
-                            <div class="method-desc">Verify repositories match patterns</div>
-                            <div class="status-tag status-pending">
-                                <i class="fas fa-clock"></i> Verify
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PLATFORMS SECTION (Hidden until verified) -->
-            <section class="platforms-section" id="platformsSection" style="display: none;">
-                <h2 class="section-title">Verified Deployment Platforms</h2>
-                <p class="section-subtitle">
-                    You're now verified! Choose your preferred deployment platform.
-                </p>
-
-                <div class="platforms-grid">
-                    <!-- Platforms same as before... -->
-                    <!-- HEROKU CARD -->
-                    <div class="platform-card">
-                        <div class="platform-header">
-                            <div class="platform-icon heroku-icon">
-                                <i class="fab fa-heroku"></i>
-                            </div>
-                            <h3 class="platform-title">Heroku</h3>
-                        </div>
-                        <div class="status-tag status-success">
-                            <i class="fas fa-check-circle"></i> Ready to Deploy
-                        </div>
-                        <p class="platform-desc">
-                            Popular platform with easy one-click deployment.
-                        </p>
-                        <ul class="platform-features">
-                            <li><i class="fas fa-check-circle"></i> Free tier available</li>
-                            <li><i class="fas fa-check-circle"></i> Auto-deploy from GitHub</li>
-                            <li><i class="fas fa-check-circle"></i> PostgreSQL included</li>
-                        </ul>
-                        <div class="card-actions">
-                            <button class="btn btn-secondary" onclick="showInstructions('heroku')">
-                                <i class="fas fa-book"></i> Instructions
-                            </button>
-                            <button class="btn btn-primary" onclick="deployTo('heroku')" id="herokuBtn">
-                                <i class="fas fa-rocket"></i> Deploy Now
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Add other platforms similarly... -->
                 <!-- RAILWAY -->
                 <div class="platform-card">
                     <div class="platform-header">
@@ -1322,240 +998,110 @@
                     </div>
                 </div>
             </div>
+        </section>
 
-
-
-                </div>
-            </section>
-
-            <!-- FOOTER -->
-            <footer class="footer">
-                <h3>Need Verification Help?</h3>
-                <div class="contact-links">
-                    <a href="https://wa.me/255764182801" target="_blank">
-                        <i class="fab fa-whatsapp"></i> WhatsApp Support
-                    </a>
-                    <a href="https://github.com/Fred1e/Fee-Xmd/issues" target="_blank">
-                        <i class="fab fa-github"></i> GitHub Issues
-                    </a>
-                    <a href="mailto:frediezra360@gmail.com">
-                        <i class="fas fa-envelope"></i> Email Support
-                    </a>
-                </div>
-            </footer>
+        <!-- MODALS -->
+        <div id="instructionsModal" class="modal">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+                <h3 class="modal-title" id="modalTitle">Deployment Instructions</h3>
+                <div id="modalContent"></div>
+            </div>
         </div>
 
-        <!-- STAGE 2: CLOUDY DASHBOARD (Shows after successful verification) -->
-        <div id="cloudyDashboard" class="cloudy-dashboard">
-            <!-- CLOUDY DASHBOARD HEADER -->
-            <header class="header">
-                <div class="logo">
-                    <div class="logo-icon" style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
-                        <i class="fas fa-cloud"></i>
+        <div id="forkModal" class="modal">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeForkModal()">&times;</button>
+                <div class="fork-modal-content">
+                    <div class="fork-icon">
+                        <i class="fab fa-github"></i>
                     </div>
-                    <h1>Cloudy Dashboard</h1>
-                </div>
-                <p class="tagline">
-                    Welcome to your personalized deployment dashboard. Manage your bot deployment and settings.
-                </p>
-                <div class="status-badge">
-                    <i class="fas fa-user-check"></i> Verified User: <span id="verifiedUsername">Loading...</span>
-                </div>
-            </header>
-
-            <!-- USER WELCOME SECTION -->
-            <section class="user-welcome">
-                <div class="user-avatar">
-                    <i class="fas fa-user-tie"></i>
-                </div>
-                <h2 style="color: white; margin-bottom: 1rem;">Welcome, <span id="welcomeUsername">GitHub User</span>!</h2>
-                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
-                    Your account has been successfully verified. You now have access to all deployment features.
-                </p>
-
-                <div class="user-info">
-                    <div class="info-item">
-                        <strong>GitHub Account:</strong>
-                        <span id="userGithubLink">Loading...</span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Verification Status:</strong>
-                        <span class="status-tag status-success" style="margin: 0;">
-                            <i class="fas fa-shield-check"></i> Fully Verified
-                        </span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Session ID:</strong>
-                        <span id="sessionId" style="font-family: monospace; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px;">Loading...</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- DEPLOYMENT MANAGEMENT -->
-            <section class="verification-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-rocket"></i> Deployment Management</h2>
-                    <p>
-                        Manage your bot deployment across different platforms.
+                    <h3 class="modal-title">🚀 Fork Repository Required</h3>
+                    <p style="color: var(--text-secondary); margin: 1.5rem 0; font-size: 1.1rem;">
+                        You need to fork the FEE XMD repository to your GitHub account before deploying.
+                        This gives you full control over your deployment.
                     </p>
-                </div>
 
-                <!-- SESSION INFO -->
-                <div class="session-info">
-                    <h4 style="color: white; margin-bottom: 1rem;"><i class="fas fa-info-circle"></i> Session Information</h4>
-                    <div class="session-item">
-                        <span>Verification Timestamp:</span>
-                        <span id="verificationTime">Loading...</span>
+                    <div class="instructions" style="text-align: left;">
+                        <h4><i class="fas fa-list-ol"></i> Steps to Fork:</h4>
+                        <ol>
+                            <li>Go to: <a href="https://github.com/Fred1e/Fee-Xmd" target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: 500;">github.com/Fred1e/Fee-Xmd</a></li>
+                            <li>Click the <strong style="color: white;">"Fork"</strong> button in the top-right corner</li>
+                            <li>Select your account as the destination</li>
+                            <li>Wait for the forking process to complete</li>
+                            <li>Return here and click "I've Forked" to verify</li>
+                        </ol>
                     </div>
-                    <div class="session-item">
-                        <span>Session Expires:</span>
-                        <span id="sessionExpiry">Loading...</span>
-                    </div>
-                    <div class="session-item">
-                        <span>Fork Status:</span>
-                        <span class="status-tag status-success" style="margin: 0;">
-                            <i class="fas fa-code-branch"></i> Active Fork
-                        </span>
+
+                    <div class="fork-actions">
+                        <a href="https://github.com/Fred1e/Fee-Xmd" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-github"></i> Go to Repository
+                        </a>
+                        <button class="btn btn-secondary" onclick="checkForkAgain()">
+                            <i class="fas fa-sync-alt"></i> Check Again
+                        </button>
+                        <button class="btn btn-primary" onclick="simulateForkForDemo()" id="simulateForkBtn">
+                            <i class="fas fa-magic"></i> Demo Mode (Skip)
+                        </button>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- DEPLOYMENT ACTIONS -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-                    <button class="btn btn-primary" onclick="manageDeployment()">
-                        <i class="fas fa-cogs"></i> Manage Deployment
-                    </button>
-                    <button class="btn btn-secondary" onclick="viewFork()">
-                        <i class="fab fa-github"></i> View Fork
-                    </button>
-                    <button class="btn btn-secondary" onclick="showSettings()">
-                        <i class="fas fa-sliders-h"></i> Settings
-                    </button>
-                    <button class="btn btn-secondary" onclick="resetSession()">
-                        <i class="fas fa-redo"></i> Reset Session
-                    </button>
-                </div>
-            </section>
-
-            <!-- DEPLOYMENT PLATFORMS -->
-            <section class="platforms-section">
-                <h2 class="section-title">Deployment Platforms</h2>
-                <p class="section-subtitle">
-                    Choose where to deploy your verified bot instance.
+        <!-- FOOTER -->
+        <footer class="footer">
+            <h3>Need Help with Deployment?</h3>
+            <div class="contact-links">
+                <a href="https://wa.me/255764182801" target="_blank">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Support
+                </a>
+                <a href="https://github.com/Fred1e/Fee-Xmd/issues" target="_blank">
+                    <i class="fab fa-github"></i> GitHub Issues
+                </a>
+                <a href="mailto:frediezra360@gmail.com">
+                    <i class="fas fa-envelope"></i> Email Support
+                </a>
+                <a href="https://chat.whatsapp.com/KERPI5K0w0L9rzU00QSw40" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Community Group
+                </a>
+            </div>
+            <div class="footer-info">
+                <p>© 2024 Fredi AI Tech | FEE XMD & LUCKY-MD Developer</p>
+                <p>Arusha, Tanzania | +255764182801</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">
+                    This dashboard requires GitHub verification for secure deployment.
                 </p>
-
-                <div class="platforms-grid">
-                    <!-- All platform cards from before, but now enabled -->
-                    <!-- HEROKU CARD -->
-                    <div class="platform-card">
-                        <div class="platform-header">
-                            <div class="platform-icon heroku-icon">
-                                <i class="fab fa-heroku"></i>
-                            </div>
-                            <h3 class="platform-title">Heroku</h3>
-                        </div>
-                        <div class="status-tag status-success">
-                            <i class="fas fa-check-circle"></i> Ready
-                        </div>
-                        <p class="platform-desc">
-                            Deploy your bot to Heroku's cloud platform.
-                        </p>
-                        <div class="card-actions">
-                            <button class="btn btn-primary" onclick="deployToPlatform('heroku')">
-                                <i class="fas fa-rocket"></i> Deploy to Heroku
-                            </button>
-                        </div>
-                    </div>
-                    
-                       <!-- RAILWAY CARD -->
-                    <div class="platform-card">
-                        <div class="platform-header">
-                            <div class="platform-icon railway-icon">
-                                <i class="fas fa-train"></i>
-                            </div>
-                            <h3 class="platform-title">Railway</h3>
-                        </div>
-                        <div class="status-tag status-success">
-                            <i class="fas fa-check-circle"></i> Ready
-                        </div>
-                        <p class="platform-desc">
-                            Modern platform with always-on capability.
-                        </p>
-                        <div class="card-actions">
-                            <button class="btn btn-primary" onclick="deployToPlatform('railway')">
-                                <i class="fas fa-rocket"></i> Deploy to Railway
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Add other platforms similarly... -->
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <!-- MODALS -->
-    <div id="instructionsModal" class="modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <h3 class="modal-title">Deployment Instructions</h3>
-            <div id="modalContent"></div>
-        </div>
-    </div>
-
-    <div id="verificationModal" class="modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <div id="verificationModalContent"></div>
-        </div>
+            </div>
+        </footer>
     </div>
 
 <script>
-    // ENHANCED VERIFICATION SYSTEM WITH MULTI-LAYER SECURITY
-    // No demo mode, no bypass - real verification only
-
+    // REAL-TIME GITHUB FORK VERIFICATION
+    // No demo mode allowed - must have real fork
+    
     // STATE MANAGEMENT
-    let verificationState = {
-        currentUser: null,
-        userData: null,
-        verificationStep: 1,
-        stepsCompleted: {
-            step1: false, // GitHub account exists
-            step2: false, // Repository forked
-            step3: false  // Session verified
-        },
-        sessionToken: null,
-        verificationMethod: null,
-        securityChecks: []
-    };
+    let currentUser = null;
+    let hasRealFork = false;
+    let userVerified = false;
+    let userForkUrl = null;
 
-    // SECURITY CONFIGURATION
-    const SECURITY_CONFIG = {
-        minAccountAge: 30, // days
-        minRepos: 1,
-        minFollowers: 0,
-        minFollowing: 0,
-        requiredPatterns: ['bot', 'whatsapp', 'fee', 'xmd'],
-        blockPatterns: ['bot', 'spam', 'test', 'fake', 'dummy'],
-        maxAttempts: 3,
-        timeBetweenAttempts: 30000 // 30 seconds
+    // DOM ELEMENTS
+    const verifyBtn = document.getElementById('verifyBtn');
+    const verificationResult = document.getElementById('verificationResult');
+    const deployButtons = {
+        heroku: document.getElementById('herokuBtn'),
+        railway: document.getElementById('railwayBtn'),
+        render: document.getElementById('renderBtn'),
+        koyeb: document.getElementById('koyebBtn'),
+        replit: document.getElementById('replitBtn')
     };
 
     // REPOSITORY INFO
     const REPO_OWNER = 'Fred1e';
     const REPO_NAME = 'Fee-Xmd';
-    const CORS_PROXY = 'https://corsproxy.io/?';
     
-    // SESSION MANAGEMENT
-    const SESSION_DURATION = 2 * 60 * 60 * 1000; // 2 hours
-
-    // DOM ELEMENTS
-    const initialDashboard = document.getElementById('initialDashboard');
-    const cloudyDashboard = document.getElementById('cloudyDashboard');
-    const startVerificationBtn = document.getElementById('startVerificationBtn');
-    const verificationLoading = document.getElementById('verificationLoading');
-    const verificationResult = document.getElementById('verificationResult');
-    const platformsSection = document.getElementById('platformsSection');
-    const accountVerification = document.getElementById('accountVerification');
+    // CORS PROXY FOR GITHUB PAGES
+    const CORS_PROXY = 'https://corsproxy.io/?';
 
     // SHOW RESULT MESSAGE
     function showResult(message, type = 'info') {
@@ -1577,31 +1123,8 @@
         `;
     }
 
-    // UPDATE VERIFICATION STEP UI
-    function updateStepUI(step, status) {
-        const stepElement = document.getElementById(`step${step}`);
-        const statusElement = stepElement.querySelector('.step-status');
-        
-        stepElement.classList.remove('active');
-        stepElement.classList.remove('completed');
-        
-        if (status === 'completed') {
-            stepElement.classList.add('completed');
-            statusElement.innerHTML = '<i class="fas fa-check-circle"></i> Verified';
-            statusElement.className = 'step-status status-success';
-            verificationState.stepsCompleted[`step${step}`] = true;
-        } else if (status === 'active') {
-            stepElement.classList.add('active');
-            statusElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-            statusElement.className = 'step-status status-pending';
-        } else if (status === 'failed') {
-            statusElement.innerHTML = '<i class="fas fa-times-circle"></i> Failed';
-            statusElement.className = 'step-status status-failed';
-        }
-    }
-
-    // START MULTI-STEP VERIFICATION
-    async function startVerification() {
+    // CHECK IF USER HAS REAL FORK
+    async function verifyGitHubUser() {
         const username = document.getElementById('githubUsername').value.trim();
 
         if (!username) {
@@ -1609,155 +1132,52 @@
             return;
         }
 
-        // Basic username validation
+        // Username validation
         if (!/^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/.test(username)) {
             showResult('Invalid GitHub username format', 'error');
             return;
         }
 
-        // Reset state for new verification
-        verificationState.currentUser = username;
-        verificationState.verificationStep = 1;
-        verificationState.stepsCompleted = { step1: false, step2: false, step3: false };
-        verificationState.securityChecks = [];
-
-        // Show loading
-        startVerificationBtn.disabled = true;
-        verificationLoading.classList.add('active');
-        updateStepUI(1, 'active');
-        showResult('Starting verification process...', 'loading');
+        showResult('Checking GitHub account and fork status...', 'loading');
+        currentUser = username;
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = '<span class="loader"></span> Verifying...';
 
         try {
-            // STEP 1: Verify GitHub account exists and is legitimate
-            await verifyGitHubAccount(username);
-            
-            if (!verificationState.stepsCompleted.step1) {
-                throw new Error('Account verification failed');
-            }
-
-            // STEP 2: Check repository fork
-            await verifyRepositoryFork(username);
-            
-            if (!verificationState.stepsCompleted.step2) {
-                throw new Error('Repository fork verification failed');
-            }
-
-            // STEP 3: Show account verification methods
-            showAccountVerificationMethods();
-            updateStepUI(3, 'active');
-
-        } catch (error) {
-            console.error('Verification error:', error);
-            showResult(`Verification failed: ${error.message}`, 'error');
-            resetVerificationUI();
-        } finally {
-            verificationLoading.classList.remove('active');
-            startVerificationBtn.disabled = false;
-        }
-    }
-
-    // STEP 1: Verify GitHub Account (Enhanced)
-    async function verifyGitHubAccount(username) {
-        showResult('Verifying GitHub account legitimacy...', 'loading');
-
-        try {
-            // Check account exists
+            // STEP 1: Check if GitHub user exists
             const userUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/users/${username}`)}`;
             const userRes = await fetch(userUrl);
 
             if (!userRes.ok) {
                 if (userRes.status === 404) {
-                    throw new Error('GitHub account not found');
+                    showResult('GitHub user not found. Please check your username.', 'error');
+                } else {
+                    showResult('Error connecting to GitHub API. Please try again.', 'error');
                 }
-                throw new Error(`GitHub API error: ${userRes.status}`);
+                resetVerifyButton();
+                disableAllDeployButtons();
+                return;
             }
 
-            const userData = await userRes.json();
-            verificationState.userData = userData;
-
-            // SECURITY CHECKS
-            const securityChecks = [];
-
-            // Check 1: Account age
-            const createdAt = new Date(userData.created_at);
-            const accountAgeDays = (new Date() - createdAt) / (1000 * 60 * 60 * 24);
-            securityChecks.push({
-                name: 'Account Age',
-                passed: accountAgeDays >= SECURITY_CONFIG.minAccountAge,
-                value: `${Math.floor(accountAgeDays)} days`,
-                required: `${SECURITY_CONFIG.minAccountAge} days minimum`
-            });
-
-            // Check 2: Check for suspicious patterns in username
-            const suspiciousPatterns = SECURITY_CONFIG.blockPatterns;
-            const hasSuspiciousPattern = suspiciousPatterns.some(pattern => 
-                username.toLowerCase().includes(pattern.toLowerCase())
-            );
-            securityChecks.push({
-                name: 'Username Check',
-                passed: !hasSuspiciousPattern,
-                value: username,
-                required: 'No suspicious patterns'
-            });
-
-            // Check 3: Check if account has any activity
-            const hasRepos = userData.public_repos > 0;
-            const hasFollowers = userData.followers > 0;
-            const hasFollowing = userData.following > 0;
-            
-            securityChecks.push({
-                name: 'Account Activity',
-                passed: hasRepos || hasFollowers || hasFollowing,
-                value: `${userData.public_repos} repos, ${userData.followers} followers`,
-                required: 'Some activity present'
-            });
-
-            // Store security checks
-            verificationState.securityChecks = securityChecks;
-
-            // Calculate overall security score
-            const passedChecks = securityChecks.filter(check => check.passed).length;
-            const totalChecks = securityChecks.length;
-            const securityScore = (passedChecks / totalChecks) * 100;
-
-            if (securityScore < 50) {
-                throw new Error('Account failed security checks. This may be a bot or fake account.');
-            }
-
-            updateStepUI(1, 'completed');
-            verificationState.stepsCompleted.step1 = true;
-            
-            showResult(`✅ Account verified: ${username} (${Math.floor(securityScore)}% security score)`, 'success');
-            
-            // Show security details
-            setTimeout(() => {
-                showSecurityDetails(securityChecks);
-            }, 1000);
-
-        } catch (error) {
-            updateStepUI(1, 'failed');
-            throw error;
-        }
-    }
-
-    // STEP 2: Verify Repository Fork
-    async function verifyRepositoryFork(username) {
-        showResult('Checking repository fork status...', 'loading');
-        updateStepUI(2, 'active');
-
-        try {
-            // Method 1: Check user's repositories for our fork
-            const reposUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`)}`;
-            const reposRes = await fetch(reposUrl);
+            // STEP 2: Check user's repositories to see if they have forked our repo
+            // This checks the user's own repositories instead of checking forks list
+            const userReposUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/users/${username}/repos?per_page=100`)}`;
+            const reposRes = await fetch(userReposUrl);
 
             if (!reposRes.ok) {
-                throw new Error('Cannot fetch user repositories');
+                showResult('Cannot fetch user repositories. API limit may be reached.', 'warning');
+                showManualVerification();
+                resetVerifyButton();
+                disableAllDeployButtons();
+                return;
             }
 
             const userRepos = await reposRes.json();
-            let forkFound = null;
-
+            
             // Look for a fork of our repository
+            let forkFound = null;
+            
+            // Method 1: Check if any repo is a fork of our repo
             for (const repo of userRepos) {
                 if (repo.fork && repo.parent) {
                     if (repo.parent.full_name.toLowerCase() === `${REPO_OWNER}/${REPO_NAME}`.toLowerCase()) {
@@ -1766,282 +1186,152 @@
                     }
                 }
             }
-
+            
+            // Method 2: Check repo name pattern if Method 1 fails
             if (!forkFound) {
-                // Method 2: Check all forks of our repository
-                const forksUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/forks`)}`;
-                const forksRes = await fetch(forksUrl);
-                
-                if (forksRes.ok) {
-                    const allForks = await forksRes.json();
-                    forkFound = allForks.find(fork => fork.owner.login.toLowerCase() === username.toLowerCase());
+                for (const repo of userRepos) {
+                    if (repo.name.toLowerCase() === REPO_NAME.toLowerCase() || 
+                        repo.name.toLowerCase().includes('fee-xmd') ||
+                        repo.name.toLowerCase().includes('fee-xmd')) {
+                        // Double check by looking at description or topics
+                        if (repo.description && (
+                            repo.description.includes('WhatsApp') || 
+                            repo.description.includes('bot') ||
+                            repo.topics?.includes('whatsapp-bot')
+                        )) {
+                            forkFound = repo;
+                            break;
+                        }
+                    }
                 }
             }
 
             if (forkFound) {
-                // Additional verification: Check if fork has recent activity
-                const forkCommitsUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/repos/${username}/${REPO_NAME}/commits`)}`;
-                const commitsRes = await fetch(forkCommitsUrl);
+                // REAL FORK FOUND
+                hasRealFork = true;
+                userVerified = true;
+                userForkUrl = forkFound.html_url;
                 
-                if (commitsRes.ok) {
-                    const commits = await commitsRes.json();
-                    const hasRecentCommits = commits.length > 0;
-                    
-                    securityChecks.push({
-                        name: 'Fork Activity',
-                        passed: hasRecentCommits,
-                        value: hasRecentCommits ? `${commits.length} commits` : 'No recent activity',
-                        required: 'Active fork'
-                    });
-                }
-
-                updateStepUI(2, 'completed');
-                verificationState.stepsCompleted.step2 = true;
+                showResult(`✅ Verified! You have forked the repository: ${forkFound.full_name}`, 'success');
+                enableDeployButtons();
                 
-                showResult(`✅ Repository fork verified: ${forkFound.full_name}`, 'success');
-                
-                // Store fork info
-                verificationState.userData.fork = forkFound;
+                // Show success message with fork details
+                setTimeout(() => {
+                    showResult(`🎉 Ready to deploy! Your fork: <a href="${forkFound.html_url}" target="_blank" style="color: var(--accent);">${forkFound.full_name}</a>`, 'success');
+                }, 1000);
                 
             } else {
-                throw new Error('Repository not forked. Please fork the repository first.');
+                // NO FORK FOUND
+                hasRealFork = false;
+                userVerified = false;
+                showResult('❌ Repository not forked. Please fork the repository first.', 'error');
+                showForkModal();
+                disableAllDeployButtons();
             }
 
         } catch (error) {
-            updateStepUI(2, 'failed');
-            throw error;
+            console.error('Verification error:', error);
+            showResult('Network error. Please check your connection and try again.', 'error');
+            disableAllDeployButtons();
+        } finally {
+            resetVerifyButton();
         }
     }
 
-    // STEP 3: Account Ownership Verification Methods
-    function showAccountVerificationMethods() {
-        accountVerification.style.display = 'block';
-        showResult('Choose a method to verify account ownership:', 'info');
+    // DISABLE ALL DEPLOY BUTTONS
+    function disableAllDeployButtons() {
+        Object.values(deployButtons).forEach(btn => {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-lock"></i> Fork Required';
+        });
     }
 
-    // VERIFICATION METHOD 1: Recent Activity
-    async function verifyViaRecentActivity() {
-        showResult('Checking recent GitHub activity...', 'loading');
-        verificationState.verificationMethod = 'recent_activity';
-
-        try {
-            const eventsUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/users/${verificationState.currentUser}/events`)}`;
-            const eventsRes = await fetch(eventsUrl);
-
-            if (!eventsRes.ok) {
-                throw new Error('Cannot fetch activity data');
-            }
-
-            const events = await eventsRes.json();
-            
-            // Analyze activity patterns
-            const recentEvents = events.slice(0, 10);
-            const hasRecentActivity = recentEvents.length > 0;
-            const activityTypes = [...new Set(recentEvents.map(event => event.type))];
-            
-            const activityCheck = {
-                name: 'Recent Activity',
-                passed: hasRecentActivity,
-                value: hasRecentActivity ? `${recentEvents.length} recent events` : 'No recent activity',
-                details: activityTypes.join(', ')
-            };
-
-            verificationState.securityChecks.push(activityCheck);
-
-            if (hasRecentActivity) {
-                completeVerification();
-            } else {
-                showResult('No recent activity found. Try another verification method.', 'warning');
-            }
-
-        } catch (error) {
-            showResult('Failed to check activity. Try another method.', 'error');
+    // ENABLE DEPLOY BUTTONS ONLY IF REAL FORK EXISTS
+    function enableDeployButtons() {
+        if (!hasRealFork || !userVerified || !currentUser) {
+            disableAllDeployButtons();
+            return;
         }
+        
+        Object.values(deployButtons).forEach(btn => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-rocket"></i> Deploy Now';
+        });
     }
 
-    // VERIFICATION METHOD 2: Profile Data
-    async function verifyViaProfileData() {
-        showResult('Verifying profile information...', 'loading');
-        verificationState.verificationMethod = 'profile_data';
-
-        try {
-            const user = verificationState.userData;
-            
-            // Check for real user indicators
-            const hasBio = user.bio && user.bio.trim().length > 0;
-            const hasLocation = user.location && user.location.trim().length > 0;
-            const hasBlog = user.blog && user.blog.trim().length > 0;
-            const hasCompany = user.company && user.company.trim().length > 0;
-            
-            const profileCheck = {
-                name: 'Profile Completeness',
-                passed: (hasBio || hasLocation || hasBlog || hasCompany),
-                value: `${hasBio ? 'Bio ✓ ' : ''}${hasLocation ? 'Location ✓ ' : ''}${hasBlog ? 'Blog ✓ ' : ''}${hasCompany ? 'Company ✓ ' : ''}`,
-                details: 'Profile has personal information'
-            };
-
-            verificationState.securityChecks.push(profileCheck);
-
-            if (profileCheck.passed) {
-                completeVerification();
-            } else {
-                showResult('Profile lacks personal information. Try another method.', 'warning');
-            }
-
-        } catch (error) {
-            showResult('Profile verification failed. Try another method.', 'error');
-        }
-    }
-
-    // VERIFICATION METHOD 3: Repository Analysis
-    async function verifyViaRepository() {
-        showResult('Analyzing repositories...', 'loading');
-        verificationState.verificationMethod = 'repository_analysis';
-
-        try {
-            const reposUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/users/${verificationState.currentUser}/repos?per_page=10&sort=updated`)}`;
-            const reposRes = await fetch(reposUrl);
-
-            if (!reposRes.ok) {
-                throw new Error('Cannot fetch repositories');
-            }
-
-            const repos = await reposRes.json();
-            
-            // Analyze repository patterns
-            const hasOriginalRepos = repos.some(repo => !repo.fork);
-            const hasMultipleLanguages = new Set(repos.map(repo => repo.language)).size > 1;
-            const hasRecentUpdates = repos.some(repo => {
-                const updated = new Date(repo.updated_at);
-                const daysSinceUpdate = (new Date() - updated) / (1000 * 60 * 60 * 24);
-                return daysSinceUpdate < 30;
-            });
-            
-            const repoCheck = {
-                name: 'Repository Analysis',
-                passed: hasOriginalRepos || hasMultipleLanguages || hasRecentUpdates,
-                value: `${repos.length} repos, ${hasOriginalRepos ? 'Original repos ✓ ' : ''}${hasRecentUpdates ? 'Recent updates ✓ ' : ''}`,
-                details: 'Repository patterns indicate real user'
-            };
-
-            verificationState.securityChecks.push(repoCheck);
-
-            if (repoCheck.passed) {
-                completeVerification();
-            } else {
-                showResult('Repository patterns not typical of real user. Try another method.', 'warning');
-            }
-
-        } catch (error) {
-            showResult('Repository analysis failed. Try another method.', 'error');
-        }
-    }
-
-    // COMPLETE VERIFICATION AND SHOW CLOUDY DASHBOARD
-    function completeVerification() {
-        updateStepUI(3, 'completed');
-        verificationState.stepsCompleted.step3 = true;
-
-        // Generate session token
-        verificationState.sessionToken = generateSessionToken();
-        
-        // Store session in localStorage
-        const sessionData = {
-            user: verificationState.currentUser,
-            token: verificationState.sessionToken,
-            expiry: Date.now() + SESSION_DURATION,
-            verifiedAt: new Date().toISOString(),
-            method: verificationState.verificationMethod
-        };
-        
-        localStorage.setItem('fee_xmd_session', JSON.stringify(sessionData));
-        
-        // Show success message
-        showResult('🎉 Account successfully verified! Loading your dashboard...', 'success');
-        
-        // Hide initial dashboard, show cloudy dashboard
-        setTimeout(() => {
-            initialDashboard.style.display = 'none';
-            loadCloudyDashboard();
-        }, 2000);
-    }
-
-    // LOAD CLOUDY DASHBOARD
-    function loadCloudyDashboard() {
-        // Update user information
-        document.getElementById('verifiedUsername').textContent = verificationState.currentUser;
-        document.getElementById('welcomeUsername').textContent = verificationState.currentUser;
-        document.getElementById('userGithubLink').innerHTML = `
-            <a href="https://github.com/${verificationState.currentUser}" target="_blank" style="color: var(--secondary);">
-                @${verificationState.currentUser}
-            </a>
-        `;
-        document.getElementById('sessionId').textContent = verificationState.sessionToken.substring(0, 12) + '...';
-        document.getElementById('verificationTime').textContent = new Date().toLocaleString();
-        
-        // Calculate expiry time
-        const expiry = new Date(Date.now() + SESSION_DURATION);
-        document.getElementById('sessionExpiry').textContent = expiry.toLocaleString();
-        
-        // Show dashboard
-        cloudyDashboard.classList.add('active');
-    }
-
-    // GENERATE SESSION TOKEN
-    function generateSessionToken() {
-        return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    }
-
-    // SHOW SECURITY DETAILS
-    function showSecurityDetails(checks) {
-        const detailsHtml = checks.map(check => `
-            <div style="margin: 0.5rem 0; padding: 0.8rem; background: ${check.passed ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)'}; border-radius: 8px; border-left: 4px solid ${check.passed ? 'var(--accent)' : 'var(--danger)'};">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <strong>${check.name}</strong>
-                    <span style="font-size: 0.9em;">${check.passed ? '✅' : '❌'}</span>
-                </div>
-                <div style="font-size: 0.9em; color: var(--text-secondary); margin-top: 0.3rem;">
-                    ${check.value} • ${check.required}
-                </div>
-            </div>
-        `).join('');
-
+    // MANUAL VERIFICATION OPTION
+    function showManualVerification() {
         verificationResult.innerHTML += `
             <div class="result-message result-info" style="margin-top: 1rem;">
-                <i class="fas fa-shield-alt"></i>
-                <div style="flex: 1;">
-                    <strong>Security Analysis</strong>
-                    <div style="margin-top: 0.8rem;">
-                        ${detailsHtml}
-                    </div>
+                <i class="fas fa-hands-helping"></i>
+                <div>
+                    <strong>Manual Verification Required</strong>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em;">
+                        1. Fork: <a href="https://github.com/${REPO_OWNER}/${REPO_NAME}/fork" target="_blank" style="color: var(--secondary);">Click here to fork</a><br>
+                        2. Wait for fork to complete<br>
+                        3. Click "Check Again" below
+                    </p>
+                    <button class="btn btn-secondary" onclick="checkForkAgain()" style="margin-top: 0.8rem; padding: 0.5rem 1rem; font-size: 0.9em;">
+                        <i class="fas fa-sync-alt"></i> Check Again
+                    </button>
                 </div>
             </div>
         `;
     }
 
-    // RESET VERIFICATION UI
-    function resetVerificationUI() {
-        [1, 2, 3].forEach(step => updateStepUI(step, 'pending'));
-        accountVerification.style.display = 'none';
-        platformsSection.style.display = 'none';
-        startVerificationBtn.disabled = false;
+    // RESET VERIFY BUTTON
+    function resetVerifyButton() {
+        verifyBtn.disabled = false;
+        verifyBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Fork Status';
     }
 
-    // DEPLOY TO PLATFORM (Cloudy Dashboard)
-    function deployToPlatform(platform) {
-        if (!verificationState.currentUser || !verificationState.stepsCompleted.step3) {
-            showResult('Please complete verification first', 'error');
+    // SHOW FORK MODAL
+    function showForkModal() {
+        document.getElementById('forkModal').style.display = 'flex';
+    }
+
+    function closeForkModal() {
+        document.getElementById('forkModal').style.display = 'none';
+    }
+
+    // CHECK FORK AGAIN
+    function checkForkAgain() {
+        if (currentUser) {
+            verifyGitHubUser();
+        } else {
+            showResult('Please enter your GitHub username first', 'warning');
+        }
+    }
+
+    // DEPLOY TO PLATFORM - USING USER'S REAL FORK
+    function deployTo(platform) {
+        // DOUBLE CHECK: User must have real fork
+        if (!userVerified || !hasRealFork || !currentUser) {
+            showResult('❌ Please fork the repository first', 'error');
+            showForkModal();
+            disableAllDeployButtons();
             return;
         }
 
+        // Use the verified user's fork
+        const forkRepo = `${currentUser}/${REPO_NAME}`;
+
+        // CORRECT DEPLOYMENT URLs for each platform
         const deployUrls = {
-            heroku: `https://dashboard.heroku.com/new?template=https://github.com/${verificationState.currentUser}/${REPO_NAME}`,
-            railway: `https://railway.app/new?template=https://github.com/${verificationState.currentUser}/${REPO_NAME}`,
-            render: `https://render.com/deploy?repo=https://github.com/${verificationState.currentUser}/${REPO_NAME}`,
-            koyeb: `https://app.koyeb.com/deploy?type=git&repository=https://github.com/${verificationState.currentUser}/${REPO_NAME}`,
-            replit: `https://replit.com/github/${verificationState.currentUser}/${REPO_NAME}`
+            heroku: `https://dashboard.heroku.com/new?template=https://github.com/${forkRepo}`,
+            railway: `https://railway.app/new?template=https://github.com/${forkRepo}`,
+            render: `https://render.com/deploy?repo=https://github.com/${forkRepo}`,
+            koyeb: `https://app.koyeb.com/deploy?type=git&repository=https://github.com/${forkRepo}`,
+            replit: `https://replit.com/github/${forkRepo}`
         };
 
+        // Show loading
+        const btn = deployButtons[platform];
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="loader"></span> Preparing...';
+        btn.disabled = true;
+
+        // Show deployment message
         const platformNames = {
             heroku: 'Heroku',
             railway: 'Railway',
@@ -2050,97 +1340,203 @@
             replit: 'Replit'
         };
 
-        showResult(`🚀 Opening ${platformNames[platform]} deployment...`, 'success');
-        window.open(deployUrls[platform], '_blank');
-    }
+        showResult(`🚀 Preparing deployment to ${platformNames[platform]}...`, 'loading');
 
-    // DASHBOARD FUNCTIONS
-    function manageDeployment() {
-        showResult('Opening deployment management...', 'info');
-        // Implementation for deployment management
-    }
-
-    function viewFork() {
-        if (verificationState.currentUser) {
-            window.open(`https://github.com/${verificationState.currentUser}/${REPO_NAME}`, '_blank');
-        }
-    }
-
-    function showSettings() {
-        showResult('Settings panel coming soon...', 'info');
-    }
-
-    function resetSession() {
-        localStorage.removeItem('fee_xmd_session');
-        verificationState = {
-            currentUser: null,
-            userData: null,
-            verificationStep: 1,
-            stepsCompleted: { step1: false, step2: false, step3: false },
-            sessionToken: null,
-            verificationMethod: null,
-            securityChecks: []
-        };
-        
-        cloudyDashboard.classList.remove('active');
-        initialDashboard.style.display = 'block';
-        
-        document.getElementById('githubUsername').value = '';
-        resetVerificationUI();
-        
-        showResult('Session reset. Please verify again.', 'info');
-    }
-
-    // CHECK EXISTING SESSION ON LOAD
-    function checkExistingSession() {
-        const sessionData = localStorage.getItem('fee_xmd_session');
-        
-        if (sessionData) {
+        // Verify fork one more time before redirecting
+        setTimeout(async () => {
             try {
-                const session = JSON.parse(sessionData);
+                // Final verification
+                const verifyUrl = `${CORS_PROXY}${encodeURIComponent(`https://api.github.com/repos/${forkRepo}`)}`;
+                const verifyRes = await fetch(verifyUrl);
                 
-                // Check if session is expired
-                if (session.expiry > Date.now()) {
-                    // Load existing session
-                    verificationState.currentUser = session.user;
-                    verificationState.sessionToken = session.token;
-                    verificationState.stepsCompleted.step3 = true;
-                    
-                    initialDashboard.style.display = 'none';
-                    loadCloudyDashboard();
-                } else {
-                    // Session expired
-                    localStorage.removeItem('fee_xmd_session');
+                if (!verifyRes.ok) {
+                    showResult(`❌ Cannot access your fork. Please check it exists: ${forkRepo}`, 'error');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    disableAllDeployButtons();
+                    return;
                 }
+                
+                // FORK IS CONFIRMED - REDIRECT
+                showResult(`✅ Redirecting to ${platformNames[platform]}...`, 'success');
+                window.open(deployUrls[platform], '_blank');
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-rocket"></i> Deploy Now';
+                    btn.disabled = false;
+                    showResult(`✅ Deployment page opened! Using your fork: ${forkRepo}`, 'success');
+                }, 3000);
+                
             } catch (error) {
-                localStorage.removeItem('fee_xmd_session');
+                showResult('❌ Error verifying fork. Please try again.', 'error');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                disableAllDeployButtons();
             }
-        }
+        }, 2000);
     }
 
-    // INITIALIZE
+    // SHOW INSTRUCTIONS
+    function showInstructions(platform) {
+        const instructions = {
+            heroku: `
+                <div class="instructions">
+                    <h4><i class="fab fa-heroku"></i> Heroku Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Heroku with YOUR fork pre-loaded</li>
+                        <li><strong>Log in to Heroku</strong> - Create account if needed</li>
+                        <li><strong>Configure App</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>App name: <code>fee-xmd-yourname</code></li>
+                                <li>Choose region closest to you</li>
+                            </ul>
+                        </li>
+                        <li><strong>Set Environment Variables</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li><code>SESSION_ID</code> - Your session ID</li>
+                                <li><code>PREFIX</code> - Command prefix</li>
+                                <li><code>MODS</code> - Your phone number</li>
+                            </ul>
+                        </li>
+                        <li><strong>Deploy</strong> - Click "Deploy App"</li>
+                    </ol>
+                </div>
+            `,
+            railway: `
+                <div class="instructions">
+                    <h4><i class="fas fa-train"></i> Railway Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Railway with YOUR fork</li>
+                        <li><strong>Log in with GitHub</strong></li>
+                        <li><strong>Configure Project</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Select YOUR forked repository</li>
+                                <li>Railway auto-detects settings</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Environment Variables</strong> in Variables tab</li>
+                        <li><strong>Deploy</strong> - Deployment starts automatically</li>
+                    </ol>
+                </div>
+            `,
+            render: `
+                <div class="instructions">
+                    <h4><i class="fas fa-server"></i> Render Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Render with YOUR fork</li>
+                        <li><strong>Sign up</strong> - Use GitHub login</li>
+                        <li><strong>Create Web Service</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Select YOUR forked repository</li>
+                                <li>Name: <code>fee-xmd-bot</code></li>
+                            </ul>
+                        </li>
+                        <li><strong>Configure Build & Start</strong></li>
+                        <li><strong>Add Environment Variables</strong></li>
+                        <li><strong>Deploy</strong> - Click "Create Web Service"</li>
+                    </ol>
+                </div>
+            `,
+            koyeb: `
+                <div class="instructions">
+                    <h4><i class="fas fa-cloud"></i> Koyeb Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Koyeb with YOUR fork</li>
+                        <li><strong>Create Account</strong> - Email or GitHub login</li>
+                        <li><strong>Create App</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Select "GitHub" as source</li>
+                                <li>Select YOUR forked repository</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Environment Variables</strong> in App Settings</li>
+                        <li><strong>Deploy</strong> - Click "Deploy" button</li>
+                    </ol>
+                </div>
+            `,
+            replit: `
+                <div class="instructions">
+                    <h4><i class="fas fa-code"></i> Replit Deployment Guide</h4>
+                    <ol>
+                        <li><strong>Click "Deploy Now"</strong> - Opens Replit import</li>
+                        <li><strong>Log in to Replit</strong> - Use GitHub login</li>
+                        <li><strong>Import Repository</strong>:
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Paste YOUR forked repo URL</li>
+                                <li>Select Node.js template</li>
+                            </ul>
+                        </li>
+                        <li><strong>Add Secrets</strong> in Tools → Secrets</li>
+                        <li><strong>Run Bot</strong> - Click "Run" button</li>
+                    </ol>
+                </div>
+            `
+        };
+
+        const titles = {
+            heroku: 'Heroku Deployment Guide',
+            railway: 'Railway Deployment Guide',
+            render: 'Render Deployment Guide',
+            koyeb: 'Koyeb Deployment Guide',
+            replit: 'Replit Deployment Guide'
+        };
+
+        document.getElementById('modalTitle').textContent = titles[platform];
+        document.getElementById('modalContent').innerHTML = instructions[platform];
+        document.getElementById('instructionsModal').style.display = 'flex';
+    }
+
+    // CLOSE MODAL
+    function closeModal() {
+        document.getElementById('instructionsModal').style.display = 'none';
+        document.getElementById('forkModal').style.display = 'none';
+    }
+
+    // INITIAL SETUP
     document.addEventListener('DOMContentLoaded', () => {
-        // Check for existing session
-        checkExistingSession();
-        
         // Attach event listeners
-        startVerificationBtn.addEventListener('click', startVerification);
-        
-        // Enter key support
+        verifyBtn.addEventListener('click', verifyGitHubUser);
+
+        // Enter key support for GitHub input
         document.getElementById('githubUsername').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                startVerification();
+                verifyGitHubUser();
             }
         });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        };
+
+        // Initial state: all deploy buttons disabled
+        disableAllDeployButtons();
         
-        // Focus on input
+        // Welcome message
+        setTimeout(() => {
+            showResult('🔒 Enter your GitHub username to verify fork status', 'info');
+        }, 1000);
+
+        // Auto-focus on input
         document.getElementById('githubUsername').focus();
         
-        // Initial message
-        setTimeout(() => {
-            showResult('Enter your GitHub username to start secure verification', 'info');
-        }, 1000);
+        // Add event listeners to all deploy buttons to double-check before deployment
+        Object.keys(deployButtons).forEach(platform => {
+            deployButtons[platform].addEventListener('click', (e) => {
+                if (!hasRealFork) {
+                    e.preventDefault();
+                    showResult('❌ Please fork the repository first', 'error');
+                    showForkModal();
+                }
+            });
+        });
     });
 </script>
 </body>
-</html> 
+</html>
